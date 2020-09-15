@@ -21,7 +21,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="1" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="1" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h1>TFHE実装入門</h1>
 <h2>0.Introduction</h2>
@@ -41,13 +41,9 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="2" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="2" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>目標</h2>
-<ul>
-<li>TFHEのHomNANDを実装し、背景となる理論を説明できるようになること</li>
-<li>目に見える目標はHomNANDのテストが動く実装の製作</li>
-</ul>
+<h2>自己紹介</h2>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
@@ -63,12 +59,12 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="3" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="3" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>TFHEとは？</h2>
+<h2>目標</h2>
 <ul>
-<li>Torus Fully Homomorphic Encryptionの略</li>
-<li>0と1を表現する暗号文に対し、好きなだけ論理演算ができる</li>
+<li>TFHEのHomNANDを実装し、背景となる理論を説明できるようになること</li>
+<li>目に見える目標はHomNANDのテストが動く実装の製作</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -85,14 +81,12 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="4" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="4" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>Fully Homomorphic Encryptionとは？</h2>
+<h2>TFHEとは？</h2>
 <ul>
-<li>FHEとよく略す。日本語で言えば完全準同型暗号。</li>
-<li>暗号文を入力として、暗号文のママ任意の関数を適用できるような暗号</li>
-<li>bitの暗号文であればNANDができることが十分条件</li>
-<li>整数の暗号文であれば加算と乗算ができることが十分条件</li>
+<li>Torus Fully Homomorphic Encryptionの略</li>
+<li>0と1を表現する暗号文に対し、好きなだけ論理演算ができる</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -109,14 +103,14 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="5" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="5" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>FullyじゃないHomomorphic Encryption</h2>
+<h2>Fully Homomorphic Encryptionとは？</h2>
 <ul>
-<li>多くのHEは剰余環上の整数に対する演算をサポートしている</li>
-<li>PHE(Partial): 加法だけもしくは乗法だけできるHE</li>
-<li>SHE(Somewhat): 両方できるが、乗法の回数に暗号方式に依存した定数の制限があるもの</li>
-<li>LHE(Leveled): 両方できるが、パラメータ依存で乗法の回数に制限があるもの</li>
+<li>FHEとよく略す。日本語で言えば完全準同型暗号。</li>
+<li>暗号文を入力として、暗号文のママ任意の関数を適用できるような暗号</li>
+<li>bitの暗号文であればNANDができることが十分条件</li>
+<li>整数の暗号文であれば加算と乗算ができることが十分条件</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -133,9 +127,15 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="6" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="6" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>FHEの世代</h2>
+<h2>FullyじゃないHomomorphic Encryption</h2>
+<ul>
+<li>多くのHEは剰余環上の整数に対する演算をサポートしている</li>
+<li>PHE(Partial): 加法だけもしくは乗法だけできるHE</li>
+<li>SHE(Somewhat): 両方できるが、乗法の回数に暗号方式に依存した定数の制限があるもの</li>
+<li>LHE(Leveled): 両方できるが、パラメータ依存で乗法の回数に制限があるもの</li>
+</ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
@@ -151,7 +151,32 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="7" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="7" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>FHEの世代</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Homomorphic_encryption">wikipedia</a>が詳しい</li>
+<li>PreFHE: Pailliar Cryptosystemなど</li>
+<li>第1世代FHE: Gentryさんの博士論文(2009)など</li>
+<li>第2世代FHE: Brakerski-Gentry-Vaikuntanathan (BGV, 2011)など</li>
+<li>第3世代FHE: Craig Gentry, Amit Sahai, and Brent Waters (GSW,2013)やTFHE(2016)など</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="8" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>NAND</h2>
 <p><img src="../image/NAND.png" alt="width:300px" style="width:300px;" /></p>
@@ -178,25 +203,6 @@ code{
 </table>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
-      color: white;
-  }
-section {
-  background-color: #505050;
-  color:white
-}
-table{
-    color:black
-}
-code{
-  color:black
-}
-" data-marpit-pagination="8" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
-;">
-<h2>論理回路の例(半加算器)</h2>
-<p><img src="../image/halfadderNAND.png" alt="width:800px" style="width:800px;" /></p>
-<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
       color: white;
   }
@@ -210,10 +216,10 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="9" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="9" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>HomNANDの概念的な構造</h2>
-<p><img src="../image/HomNANDdiagram.png" alt="width:1200px" style="width:1200px;" /></p>
+<h2>論理回路の例(半加算器)</h2>
+<p><img src="../image/halfadderNAND.png" alt="width:800px" style="width:800px;" /></p>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
@@ -229,19 +235,10 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="10" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="10" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>章立て</h2>
-<ol start="0">
-<li>Introduction</li>
-<li>TLWE</li>
-<li>TRLWE &amp; SampleExtractIndex</li>
-<li>TRGSW &amp; CMUX</li>
-<li>Blind Rotate</li>
-<li>Identity Key Switch</li>
-<li>HomNAND</li>
-<li>FFT or NTTによる多項式乗算</li>
-</ol>
+<h2>HomNANDの概念的な構造</h2>
+<p><img src="../image/HomNANDdiagram.png" alt="width:1200px" style="width:1200px;" /></p>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
@@ -257,15 +254,21 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="11" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="11" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>講義の流れ</h2>
+<h2>章立て</h2>
+<ol start="0">
+<li>Introduction</li>
+<li>TLWE</li>
+<li>TRLWE &amp; SampleExtractIndex</li>
+<li>TRGSW &amp; CMUX</li>
+<li>Blind Rotate</li>
+<li>Identity Key Switch</li>
+<li>HomNAND</li>
+<li>FFT or NTTによる多項式乗算</li>
+</ol>
 <ul>
-<li>スライドはできる限り事前に配布する。手元で見れるようにすると良い</li>
-<li>講義のスピードに合わせる必要はない。自分で勝手に進めてわからない部分を質問するとかしてもらっても構わない。</li>
-<li>原著論文と原著者実装をみるだけでも実装することは可能。講義はつまづきやすい場所を潰すためのもの</li>
-<li>論文と実装の間でも理論に差異があり、講義では実装側によせた内容をやる</li>
-<li>各章では該当する部分の理論を説明してから、具体的な実装の仕方を説明する</li>
+<li>Appendixは記号の定義とかをまとめてある</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -282,14 +285,15 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="12" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="12" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>実装について</h2>
+<h2>講義の流れ</h2>
 <ul>
-<li>講師とチュータ２人が見れる形にすること</li>
-<li>言語はC,C++,Pythonだとサポートしやすい</li>
-<li>講師もチュータもLinuxで開発している</li>
-<li>目に見える目標はHomNANDのテストが動く実装の製作</li>
+<li>スライドはできる限り事前に配布する。手元で見れるようにすると良い</li>
+<li>講義のスピードに合わせる必要はない。自分で勝手に進めてわからない部分を質問するとかしてもらっても構わない。</li>
+<li>原著論文と原著者実装をみるだけでも実装することは可能。講義はつまづきやすい場所を潰すためのもの</li>
+<li>論文と実装の間でも理論に差異があり、講義では実装側によせた内容をやる</li>
+<li>各章では該当する部分の理論を説明してから、具体的な実装の仕方を説明する</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -306,18 +310,14 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="13" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="13" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
-<h2>発展的な内容</h2>
+<h2>実装について</h2>
 <ul>
-<li>CPUをTFHE上で動かす</li>
-<li>HLSとの連携</li>
-<li>FPGA,OpenCL,CUDAでの実装</li>
-<li>Deep Learningへの応用</li>
-<li>Multi Keyの実装</li>
-<li>他のFHEとのスイッチング</li>
-<li>Determinstic Finite Automata</li>
-<li>Circuit Bootstrapping</li>
+<li>講師とチュータ２人が見れる形にすること</li>
+<li>言語はC,C++,Pythonだとサポートしやすい</li>
+<li>講師もチュータもLinuxで開発している</li>
+<li>目に見える目標はHomNANDのテストが動く実装の製作</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -334,7 +334,35 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="14" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="14" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>発展的な内容</h2>
+<ul>
+<li>CPUをTFHE上で動かす</li>
+<li>HLSとの連携</li>
+<li>FPGA,OpenCL,CUDAでの実装</li>
+<li>Deep Learningへの応用</li>
+<li>Multi Keyの実装</li>
+<li>他のFHEとのスイッチング</li>
+<li>Determinstic Finite Automata</li>
+<li>Circuit Bootstrapping</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="15" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h1>用語の揺れについて</h1>
 <ul>
@@ -360,7 +388,7 @@ code{
 </table>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
       color: white;
   }
 section {
@@ -373,9 +401,17 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="15" data-marpit-pagination-total="15" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="16" data-marpit-pagination-total="16" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>参考文献</h2>
+<ul>
+<li><a href="https://github.com/virtualsecureplatform/pyFHE/tree/PurePython">Python実装(講師作)</a></li>
+<li><a href="https://github.com/virtualsecureplatform/TFHEpp">C++実装(講師作)</a></li>
+<li><a href="https://github.com/virtualsecureplatform/cuFHE">CUDA実装(講師編)</a></li>
+<li><a href="https://github.com/tfhe/tfhe">C++実装(原論文著者作)</a></li>
+<li><a href="https://github.com/nucypher/TFHE.jl">Julia実装(NuCypher製)</a></li>
+<li><a href="https://eprint.iacr.org/2018/421">現論文</a></li>
+</ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
 <script>!function(){"use strict";let t=void 0;function e(e){let r=!1;Array.from(document.querySelectorAll("svg[data-marpit-svg]"),i=>{const{children:o,clientHeight:n,clientWidth:a,viewBox:s}=i;i.style.transform||(i.style.transform="translateZ(0)");const l=e||window!==window.parent&&window.parent.marpitSVGPolyfillZoomFactor||i.currentScale||1;t!==l&&(t=l,r=l);const c=s.baseVal.width/l,d=s.baseVal.height/l,p=Math.min(n/d,a/c);for(let t=0;t<o.length;t+=1){const{style:e}=o[t].firstChild;e.position||(e.position="fixed"),e.transformOrigin||(e.transformOrigin="0 0"),e.transform=`scale(${p}) translateZ(0)`}}),!1!==r&&Object.defineProperty(window,"marpitSVGPolyfillZoomFactor",{configurable:!0,value:r})}const r=(t,e,r)=>{if(t.getAttribute(e)!==r)return t.setAttribute(e,r),!0};function i(t=!0){for(const t of"Apple Computer, Inc."===navigator.vendor?[e]:[])t();Array.from(document.querySelectorAll('svg[data-marp-fitting="svg"]'),t=>{var e;const i=t.firstChild,o=i.firstChild,{scrollWidth:n,scrollHeight:a}=o;let s,l=1;if(t.hasAttribute("data-marp-fitting-code")&&(s=null===(e=t.parentElement)||void 0===e?void 0:e.parentElement),t.hasAttribute("data-marp-fitting-math")&&(s=t.parentElement),s){const t=getComputedStyle(s),e=Math.ceil(s.clientWidth-parseFloat(t.paddingLeft||"0")-parseFloat(t.paddingRight||"0"));e&&(l=e)}const c=Math.max(n,l),d=Math.max(a,1),p=`0 0 ${c} ${d}`;r(i,"width",""+c),r(i,"height",""+d),r(t,"preserveAspectRatio",getComputedStyle(t).getPropertyValue("--preserve-aspect-ratio")||"xMinYMin meet"),r(t,"viewBox",p)&&t.classList.toggle("__reflow__")}),t&&window.requestAnimationFrame(()=>i(t))}!function(){if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");window.marpCoreBrowserScript?console.warn("Marp Core's browser script has already executed."):(Object.defineProperty(window,"marpCoreBrowserScript",{value:!0}),i())}()}();
