@@ -21,7 +21,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="1" data-marpit-pagination-total="6" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="1" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h1>TFHE実装入門</h1>
 <h2>5.Identity Key Switch</h2>
@@ -41,7 +41,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="2" data-marpit-pagination-total="6" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="2" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Identity Key Switchとは</h2>
 <ul>
@@ -63,7 +63,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="3" data-marpit-pagination-total="6" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="3" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Identity Key Switchのアイデア</h2>
 <ul>
@@ -88,7 +88,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="4" data-marpit-pagination-total="6" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="4" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Identity Key Switchの素朴な実装法(スケーリングのみ)</h2>
 <ul>
@@ -114,7 +114,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="5" data-marpit-pagination-total="6" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="5" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Identity Key SwitchにおけるDecomposition的基数展開</h2>
 <ul>
@@ -147,9 +147,67 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="6" data-marpit-pagination-total="6" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="6" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Identity Key Switchの具体的実装(乗算を要素選択に置き換える)</h2>
+<ul>
+<li>前のスライドのものでもだめなわけではない</li>
+<li>External Productと違ってここでは整数との積なので取れる値が限られている</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">K</mi><mi mathvariant="bold">S</mi></mrow><annotation encoding="application/x-tex">\mathbf{KS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68611em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbf">K</span><span class="mord mathbf">S</span></span></span></span></span>を<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><msub><mi>S</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">KS_{ij}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>が<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>j</mi><mo>⋅</mo><msub><mi>s</mi><mi>i</mi></msub></mrow><msup><mn>2</mn><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>b</mi><mi>i</mi><mi>t</mi></mrow></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{j⋅s_i}{2^{basebit}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2651919999999999em;vertical-align:-0.3574199999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.907772em;"><span style="top:-2.64258em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7820285714285713em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">⋅</span><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3574199999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>を平文とするTLWElvl0と定義し直す(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">,</mo><msup><mn>2</mn><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>b</mi><mi>i</mi><mi>t</mi></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">j ∈ [1,2^{basebit} - 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.099108em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>)</li>
+<li>こうしても<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">K</mi><mi mathvariant="bold">S</mi></mrow><annotation encoding="application/x-tex">\mathbf{KS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68611em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbf">K</span><span class="mord mathbf">S</span></span></span></span></span>のデータサイズはは<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>b</mi><mi>i</mi><mi>t</mi></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{basebit}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.932438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>倍にしかならない</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">j=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>の場合に関しては足す必要がないので保持しなくていい</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="7" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>Identity Key Switchの具体的実装(疑似コード)</h2>
+<pre><code><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>b̃=b
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to n
+  ã = <span class="hljs-number">0</span>
+offset = <span class="hljs-number">1</span> &lt;&lt; (<span class="hljs-number">32</span> - (<span class="hljs-number">1</span> + basebit)) <span class="hljs-comment">//四捨五入のため</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to N
+  āᵢ = aᵢ+offset <span class="hljs-comment">//ここでTorusから整数に変わっていると考えていい</span>
+  <span class="hljs-keyword">for</span> j <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to t<span class="hljs-number">-1</span>
+    k = (āᵢ &gt;&gt; (<span class="hljs-number">32</span> - (j+<span class="hljs-number">1</span>)⋅basebit))&amp;(<span class="hljs-number">2</span>ᵇᵃˢᵉᵇⁱᵗ - <span class="hljs-number">1</span>) <span class="hljs-comment">//unicodeだとâᵢⱼを下付きにできないので</span>
+    (𝐚̃,b̃) -= KSᵢₖ
+<span class="hljs-keyword">return</span> (𝐚̃,b̃)
+</span></span></foreignObject></svg></code></pre>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="8" data-marpit-pagination-total="8" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>Identtity Key Switchのパラメータと最低限実装するべきもの</h2>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>8</mn><mo separator="true">,</mo><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>b</mi><mi>i</mi><mi>t</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t = 8,basebit = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">8</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">b</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mord mathnormal">b</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></li>
+<li>Identity Key Switchはここで説明したものが最低限</li>
+</ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
 <script>!function(){"use strict";const t="marpitSVGPolyfill:setZoomFactor,",e=Symbol();let o,r;function n(n){const i="object"==typeof n&&n.target||document,a="object"==typeof n?n.zoom:n;window[e]||(Object.defineProperty(window,e,{configurable:!0,value:!0}),window.addEventListener("message",({data:e,origin:o})=>{if(o===window.origin)try{if(e&&"string"==typeof e&&e.startsWith(t)){const[,t]=e.split(","),o=Number.parseFloat(t);Number.isNaN(o)||(r=o)}}catch(t){console.error(t)}}));let l=!1;Array.from(i.querySelectorAll("svg[data-marpit-svg]"),t=>{var e,n,i,s;t.style.transform||(t.style.transform="translateZ(0)");const c=a||r||t.currentScale||1;o!==c&&(o=c,l=c);const d=t.getBoundingClientRect(),{length:u}=t.children;for(let o=0;o<u;o+=1){const r=t.children[o],a=r.getScreenCTM();if(a){const t=null!==(n=null===(e=r.x)||void 0===e?void 0:e.baseVal.value)&&void 0!==n?n:0,o=null!==(s=null===(i=r.y)||void 0===i?void 0:i.baseVal.value)&&void 0!==s?s:0,l=r.firstChild,{style:u}=l;u.transformOrigin||(u.transformOrigin=`${-t}px ${-o}px`),u.transform=`scale(${c}) matrix(${a.a}, ${a.b}, ${a.c}, ${a.d}, ${a.e-d.left}, ${a.f-d.top}) translateZ(0.0001px)`}}}),!1!==l&&Array.from(i.querySelectorAll("iframe"),({contentWindow:e})=>{null==e||e.postMessage(`${t}${l}`,"null"===window.origin?"*":window.origin)})}o=1,r=void 0;const i=(t,e,o)=>{if(t.getAttribute(e)!==o)return t.setAttribute(e,o),!0};function a(t={}){const e="boolean"==typeof t?(t=>{const e=!t;return console.warn(`[DEPRECATION WARNING] Usage of observer() with boolean option has been deprecated. Please replace with the usage of option object: observer({ once: ${e?"true":"false"} }).`),{once:e}})(t):t,{once:o=!1,target:r=document}=e,a="Apple Computer, Inc."===navigator.vendor?[n]:[];let l=!o;const s=()=>{for(const t of a)t({target:r});!function(t=document){Array.from(t.querySelectorAll('svg[data-marp-fitting="svg"]'),t=>{var e;const o=t.firstChild,r=o.firstChild,{scrollWidth:n,scrollHeight:a}=r;let l,s=1;if(t.hasAttribute("data-marp-fitting-code")&&(l=null===(e=t.parentElement)||void 0===e?void 0:e.parentElement),t.hasAttribute("data-marp-fitting-math")&&(l=t.parentElement),l){const t=getComputedStyle(l),e=Math.ceil(l.clientWidth-parseFloat(t.paddingLeft||"0")-parseFloat(t.paddingRight||"0"));e&&(s=e)}const c=Math.max(n,s),d=Math.max(a,1),u=`0 0 ${c} ${d}`;i(o,"width",""+c),i(o,"height",""+d),i(t,"preserveAspectRatio",getComputedStyle(t).getPropertyValue("--preserve-aspect-ratio")||"xMinYMin meet"),i(t,"viewBox",u)&&t.classList.toggle("__reflow__")})}(r),l&&window.requestAnimationFrame(s)};return s(),()=>{l=!1}}const l=Symbol(),s=document.currentScript;((t=document)=>{if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");if(t[l])return t[l];const e=a({target:t}),o=()=>{e(),delete t[l]};Object.defineProperty(t,l,{configurable:!0,value:o})})(s?s.getRootNode():document)}();
