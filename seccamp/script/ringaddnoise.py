@@ -7,8 +7,8 @@ from scipy.stats import norm
 
 μ=1/4
 σ=0.1
-scale = 20000
-boundary = 200000
+scale = 200
+boundary = 2000
 
 ε=0.003
 
