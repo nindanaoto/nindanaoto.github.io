@@ -56,4 +56,20 @@ style: |
 
 ---
 
+## Notation(TRLWE)
+
+- $m[X]∈\mathbb{T}[X]$: 平文のTorus係数多項式
+
+---
+
+## Notation(TRGSW)
+
+- $μ[X]∈\mathbb{Z}[X]$: 平分の整数係数多項式
+- $⌈⋅⌋$: 丸め関数
+
+---
+
 ## 128 bit Security Parameter
+
+- $n=630$
+- $N=1024$
