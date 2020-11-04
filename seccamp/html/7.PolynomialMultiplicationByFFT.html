@@ -21,7 +21,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="1" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="1" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h1>TFHE実装入門</h1>
 <h2>7.FFTによる多項式乗算</h2>
@@ -41,7 +41,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="2" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="2" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>モチベーション</h2>
 <ul>
@@ -65,7 +65,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="3" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="3" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>FFTとは</h2>
 <ul>
@@ -88,7 +88,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="4" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="4" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>離散フーリエ変換とは</h2>
 <ul>
@@ -98,6 +98,7 @@ code{
 <li>ここでは多項式乗算に転用するだけなのでフーリエ変換については割愛する</li>
 <li>入力となる多項式を<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">a[X]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">]</span></span></span></span>、出力を<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">[</mo><mi>X</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">A[X]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">]</span></span></span></span>としよう</li>
 <li>このとき離散フーリエ変換は以下のように与えられる</li>
+<li>指数の符号は逆でもいい</li>
 </ul>
 <p><svg data-marp-fitting="svg" data-marp-fitting-math><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>A</mi><mi>t</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>x</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></munderover><msub><mi>a</mi><mi>x</mi></msub><mo>⋅</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi><mi>t</mi><mi>x</mi></mrow><mi>N</mi></mfrac></mrow></msup><mo separator="true">,</mo><mi>t</mi><mo>∈</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">A_t = ∑^{N-1}_{x=0} a_x⋅e^{-i\frac{2πtx}{N}},t∈\{0,1,...,N-1\}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0954490000000003em;vertical-align:-1.267113em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000004em;"><span style="top:-1.882887em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.300005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.267113em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.19846em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.0040200000000001em;"><span style="top:-3.4130000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">i</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8443142857142858em;"><span style="top:-2.656em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.384em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.344em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span></span></span></span></foreignObject></svg></p><footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
@@ -115,7 +116,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="5" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="5" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>逆離散フーリエ変換</h2>
 <ul>
@@ -125,6 +126,18 @@ code{
 <li>ちなみに順と逆のどちらを定数倍してもいいし符号も逆にしていい</li>
 <li>実際にもとに戻ることは自分で確かめるか適当な本を参照してほしい</li>
 <li>行列表現にしてエルミート行列であることを使うのが簡単かも?</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>を順の方にかけたり両方に<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><msqrt><mi>N</mi></msqrt></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{\sqrt{N}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.383108em;vertical-align:-0.538em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.537397em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322900000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span><span style="top:-2.89229em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.10770999999999997em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.538em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>を掛ける流儀もある</li>
 </ul>
 <p><svg data-marp-fitting="svg" data-marp-fitting-math><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>a</mi><mi>x</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></munderover><msub><mi>A</mi><mi>t</mi></msub><mo>⋅</mo><msup><mi>e</mi><mrow><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi><mi>x</mi><mi>t</mi></mrow><mi>N</mi></mfrac></mrow></msup><mo separator="true">,</mo><mi>x</mi><mo>∈</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">a_x = \frac{1}{N}∑^{N-1}_{t=0} A_t⋅e^{i\frac{2πxt}{N}},x∈\{0,1,...,N-1\}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0954490000000003em;vertical-align:-1.267113em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000004em;"><span style="top:-1.882887em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.300005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.267113em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.19846em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.0040200000000001em;"><span style="top:-3.4130000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8443142857142858em;"><span style="top:-2.656em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.384em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.344em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span></span></span></span></foreignObject></svg></p><footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
@@ -142,7 +155,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="6" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="6" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>畳み込み定理</h2>
 <ul>
@@ -167,7 +180,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="7" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="7" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>補題:指数が非ゼロなら回転因子の総和がゼロになること</h2>
 <ul>
@@ -191,7 +204,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="8" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="8" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>畳み込み定理(続き)</h2>
 <ul>
@@ -220,7 +233,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="9" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="9" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>離散荷重変換</h2>
 <ul>
@@ -250,7 +263,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="10" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="10" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>負巡回乗算</h2>
 <ul>
@@ -280,7 +293,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="11" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="11" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>高速フーリエ変換</h2>
 <ul>
@@ -303,7 +316,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="12" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="12" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>2基底周波数間引き高速フーリエ変換(数式)</h2>
 <ul>
@@ -327,12 +340,12 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="13" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="13" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>2基底周波数間引き高速フーリエ変換(バタフライ図)</h2>
 <ul>
 <li>FFTのアルゴリズムを図示したものがバタフライ図</li>
-<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span></span></span></span>の添字がぐちゃぐちゃになるのは今示しているのがCoole-Tukey型と呼ばれるin-placeなアルゴリズムであるため</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span></span></span></span>の添字がぐちゃぐちゃになる(ビットリバース)のは今示しているのがCoole-Tukey型と呼ばれるin-placeなアルゴリズムであるため</li>
 <li>普通は添字を戻す並び替えかout-placeなStockham型を使う</li>
 <li>今回は畳み込み乗算さえできればいいので並び替えをする必要がない</li>
 <li>論文実装のFFTが自前な理由の一つはこの並び替えがいらないのを利用するため<br />
@@ -353,7 +366,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="14" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="14" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>2基底周波数間引き高速フーリエ変換(疑似コード)</h2>
 <ul>
@@ -386,7 +399,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="15" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="15" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>2基底時間間引き高速フーリエ変換</h2>
 <ul>
@@ -409,12 +422,12 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="16" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="16" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>4基底周波数間引き高速フーリエ変換(バタフライ図)</h2>
 <ul>
 <li>バタフライ図をぐっと睨むと回転因子を移動させて以下のように分解できることがわかる</li>
-<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>W</mi><mn>2</mn></msup><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi><mn>2</mn></mrow><mn>8</mn></mfrac></mrow></msup><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">W^2=e^{-i\frac{2π2}{8}}=i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.9540200000000001em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9540200000000001em;"><span style="top:-3.363em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">i</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8443142857142858em;"><span style="top:-2.656em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">8</span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.384em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.344em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>なのでこれは乗算にならない</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>W</mi><mn>2</mn></msup><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi><mn>2</mn></mrow><mn>8</mn></mfrac></mrow></msup><mo>=</mo><mo>−</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">W^2=e^{-i\frac{2π2}{8}}=-i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.9540200000000001em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9540200000000001em;"><span style="top:-3.363em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">i</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8443142857142858em;"><span style="top:-2.656em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">8</span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.384em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.344em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord mathnormal">i</span></span></span></span>なのでこれは乗算にならない</li>
 </ul>
 <p><img src="../image/butterfly4freq.png" alt="" /></p>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
@@ -432,7 +445,7 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="17" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="17" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>4基底周波数間引き高速フーリエ変換(疑似コード)</h2>
 <pre><code><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>Radix4FFT(𝐚,<span class="hljs-built_in">start</span>,<span class="hljs-keyword">end</span>)
@@ -481,13 +494,14 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="18" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="18" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Split Rasdix</h2>
 <ul>
 <li>4基底で計算量削減効果があるのは下半分だけ</li>
 <li>上半分は2基底でやめるとSplit-Radixになる</li>
 <li>メモリアクセスやプログラムの煩雑さの都合でSplit-Radixはあまりやらない</li>
+<li>8基底でも同じことはできる</li>
 </ul>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -504,7 +518,172 @@ table{
 code{
   color:black
 }
-" data-marpit-pagination="19" data-marpit-pagination-total="19" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+" data-marpit-pagination="19" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>8基底周波数間引き高速フーリエ変換(バタフライ図)</h2>
+<ul>
+<li>N=16なので<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>W</mi><mn>2</mn></msup><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mfrac><mrow><mn>2</mn><mi>π</mi><mn>2</mn></mrow><mn>16</mn></mfrac></mrow></msup><mo>=</mo><mfrac><mn>1</mn><msqrt><mn>2</mn></msqrt></mfrac><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>i</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><msup><mi>W</mi><mn>6</mn></msup><mo>=</mo><mo>=</mo><mfrac><mn>1</mn><msqrt><mn>2</mn></msqrt></mfrac><mo stretchy="false">(</mo><mo>−</mo><mn>1</mn><mo>−</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">W^2=e^{-i\frac{2π2}{16}}=\frac{1}{\sqrt{2}}(1-i),W^6==\frac{1}{\sqrt{2}}(-1-i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.9540200000000001em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9540200000000001em;"><span style="top:-3.363em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">i</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8443142857142858em;"><span style="top:-2.656em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">6</span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.384em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.344em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.383108em;vertical-align:-0.5379999999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.5510085em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.912845em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mtight">2</span></span></span><span style="top:-2.872845em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.12715500000000002em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5379999999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.383108em;vertical-align:-0.5379999999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.5510085em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.912845em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mtight">2</span></span></span><span style="top:-2.872845em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.12715500000000002em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5379999999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">)</span></span></span></span>で乗算が減る</li>
+</ul>
+<p><img src="../image/butterfly8freq.png" alt="width:500px" style="width:500px;" /></p>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="20" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>16基底以上のFFT</h2>
+<ul>
+<li>16基底以上も同じように回転因子をまとめていくことで構成できる</li>
+<li>しかし、16基底以上では8基底までで見られたような乗算の削減はできない</li>
+<li>計算量としては基底が大きいほど下がる</li>
+<li>とはいえ基底を大きくするほど並列性が下がる面もあるのでレジスタの本数やメモリアクセス量との兼ね合いが必要</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="21" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>AVX2について</h2>
+<ul>
+<li>x86で定義されているベクトル拡張命令の一つ</li>
+<li>256bit、倍精度4つ分を1サイクルで計算することができる</li>
+<li>コンパイラに任せるとうまく使ってくれないことがあるので、FFTのように並列計算をゴリゴリやる場合にはアセンブラを書いたほうが速い</li>
+<li>配列の加算程度ならコンパイラに-march=nativeを渡せば勝手に使ってくれる</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="22" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>TFHEでの利用</h2>
+<ul>
+<li>FFTを適切に書けば多項式乗算をこれに置き換えたほうが速い</li>
+<li>32bit固定小数点数を倍精度に変換して計算する</li>
+<li>倍精度には符号bitがあるので、符号付きとして解釈したほうが良い</li>
+<li>FFTは実数の上で定義されるので多項式乗算をしている間はトーラスをただの実数とみなし乗算後に剰余を取る</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="23" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>TFHEの多項式乗算における精度要求について</h2>
+<ul>
+<li>倍精度は53bitしか精度がない</li>
+<li>External Productでは最大で<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mfrac><mrow><mi>B</mi><mi>g</mi></mrow><mn>2</mn></mfrac><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>⋅</mo><mo stretchy="false">(</mo><msup><mn>2</mn><mn>3</mn></msup><mn>1</mn><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\frac{Bg}{2}-1)⋅(2^31-1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.269439em;vertical-align:-0.345em;"></span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.924439em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>を<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>個足したものが結果の係数として出てくる</li>
+<li>これを正確に保持するには少なくとも<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>g</mi><mi>b</mi><mi>i</mi><mi>t</mi><mo>−</mo><mn>1</mn><mo>+</mo><mn>31</mn><mo>+</mo><mi>N</mi><mi>b</mi><mi>i</mi><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(Bgbit-1+31+Nbit)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">b</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal">b</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span>bitの精度が必要</li>
+<li>今回は<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>−</mo><mn>1</mn><mo>+</mo><mn>31</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>46</mn><mo>&lt;</mo><mn>53</mn></mrow><annotation encoding="application/x-tex">6-1+31+10=46&lt;53</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">4</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">3</span></span></span></span>で問題ない</li>
+<li>どうせ後で32bitにまるめてしまうので実際は多少はみ出ても問題ない</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="24" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
+;">
+<h2>実装について</h2>
+<ul>
+<li>暗号の本筋とは関係ないのでTFHEの論文実装で使われているSPQLIOSを使うのが良いようには思う</li>
+<li>有名所のFFT実装としてはIntel IPPやFFTWがあるがこれらは一般的なFFT用途を想定しているためにTFHEで用いるとSPQLIOSに勝てない</li>
+<li>GPUでFFTをするcuFFTもあるがGPUならcuFHEのようにNTTを実装したほうが速い</li>
+<li>AVX512やHIPでの実装はあり？</li>
+</ul>
+<footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-paginate="true" data-footer="![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)" data-theme="default" data-style="h1, h2, h3, h4, h5, header, footer {
+      color: white;
+  }
+section {
+  background-color: #505050;
+  color:white
+}
+table{
+    color:black
+}
+code{
+  color:black
+}
+" data-marpit-pagination="25" data-marpit-pagination-total="25" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>参考文献</h2>
 <ul>
