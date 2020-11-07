@@ -352,7 +352,7 @@ code{
     <span class="hljs-keyword">for</span> j <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to N<span class="hljs-number">-1</span>
       <span class="hljs-comment">//2進でBgbit桁(最大Bg-1)を取り出してBg/2を引く</span>
       āᵢⱼ=((ãⱼ&gt;&gt;(<span class="hljs-number">32</span>-Bgbit*i))&amp;(Bg<span class="hljs-number">-1</span>))-Bg/<span class="hljs-number">2</span> <span class="hljs-comment">//&amp;はbit演算のAND</span>
-  <span class="hljs-keyword">return</span> ā[X]
+  <span class="hljs-keyword">return</span> 𝐚̄[X]
 </span></span></foreignObject></svg></code></pre>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -431,7 +431,7 @@ code{
         â₍ᵢ₋₁₎ⱼ += <span class="hljs-number">1</span>
       <span class="hljs-keyword">else</span>
         āᵢⱼ = âᵢⱼ
-  <span class="hljs-keyword">return</span> ā[X]
+  <span class="hljs-keyword">return</span> 𝐚̄[X]
 </span></span></foreignObject></svg></code></pre>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
@@ -465,7 +465,7 @@ code{
       temp = âᵢⱼ + Bg/<span class="hljs-number">2</span>
       â₍ᵢ₋₁₎ⱼ += temp&gt;&gt;Bgbit <span class="hljs-comment">//temp &gt; Bgなら1</span>
       āᵢⱼ = (temp &amp; (Bg<span class="hljs-number">-1</span>)) - Bg/<span class="hljs-number">2</span> <span class="hljs-comment">//マスクからはみ出たところは上の桁に行っている</span>
-  <span class="hljs-keyword">return</span> ā[X]
+  <span class="hljs-keyword">return</span> 𝐚̄[X]
 </span></span></foreignObject></svg></code></pre>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
