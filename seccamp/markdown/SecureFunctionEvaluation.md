@@ -20,6 +20,10 @@ style: |
   code{
     color:black
   }
+  a {
+    font-weight:bold;
+    color:#F00;
+  } 
 -->
 
 <!-- page_number: true -->
