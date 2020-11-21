@@ -57,18 +57,18 @@ style: |
 
 ||$A_1$|$A_0$|
 |---|---|---|
-|$B_1$|$\rm{Enc}(\rm{Enc}(C_1,B_1,b_{11}),A_1,a_{11})$|$\rm{Enc}(\rm{Enc}(C_0,B_1,b_{10}),A_0,a_{10})$|
-|$B_0$|$\rm{Enc}(\rm{Enc}(C_0,B_0,b_{01}),A_1,a_{01})$|$\rm{Enc}(\rm{Enc}(C_0,B_0,b_{00}),A_0,a_{00})$|
+|$B_1$|$\rm{Enc}(\rm{Enc}(C_0,B_1,b_{11}),A_1,a_{11})$|$\rm{Enc}(\rm{Enc}(C_1,B_1,b_{10}),A_0,a_{10})$|
+|$B_0$|$\rm{Enc}(\rm{Enc}(C_1,B_0,b_{01}),A_1,a_{01})$|$\rm{Enc}(\rm{Enc}(C_1,B_0,b_{00}),A_0,a_{00})$|
 
 ---
 
 ## Garbled Circuit の高速化
 
 - よく使われるのはFreeXORとHalfAND
-- FreeXORはその名の通り暗号文同士をXORするだけでXORゲートの処理をできるようにする
-- HalfANDは暗号文の表を2項目だけに減らす
+- [FreeXOR](http://www.cs.toronto.edu/~vlad/papers/XOR_ICALP08.pdf)はその名の通り暗号文同士をXORするだけでXORゲートの処理をできるようにする
+- [HalfAND](https://www.iacr.org/archive/eurocrypt2015/90560204/90560204.pdf)は暗号文の表を2項目だけに減らす
 - これらは関数を隠さない場合に適用できる
-- 復号が成功したか失敗したかを判定するのは難しいので暗号文の1bitをランダムなフラグにしてどの暗号文なら成功するかを埋め込むこともできる
+- 復号が成功したか失敗したかを判定するのは難しいので[暗号文の1bitをランダムなフラグにしてどの暗号文なら成功するかを埋め込む](https://web.cs.ucdavis.edu/~rogaway/papers/bmr90)こともできる
 
 ---
 
@@ -77,3 +77,11 @@ style: |
 - もしあり得る入力すべてにアクセスできると関数と平文がバレる
 - それを避けるのに紛失通信が使われる
 - 複数回評価することができない
+
+---
+
+## 参考文献
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Garbled_circuit)
+- [ARM2GC(MIPSプロセッサを動かす話が含まれてる)](https://thomaschneider.de/papers/SHSSK15.pdf)
+- [ARM2GC(GCの上でARMプロセッサを動かす)](https://arxiv.org/abs/1902.02908)
