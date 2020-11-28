@@ -226,17 +226,18 @@ a {
 " data-marpit-pagination="8" data-marpit-pagination-total="9" style="--paginate:true;--footer:![](../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/);--theme:default;
 ;">
 <h2>Identity Key Switchの具体的実装(疑似コード)</h2>
-<pre><code><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>b̃=b
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to n<span class="hljs-number">-1</span>
-  ãᵢ = <span class="hljs-number">0</span>
-prec_offset = <span class="hljs-number">1</span> &lt;&lt; (<span class="hljs-number">32</span> - (<span class="hljs-number">1</span> + basebit)) <span class="hljs-comment">//四捨五入のため</span>
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to N<span class="hljs-number">-1</span>
-  āᵢ = aᵢ+prec_offset <span class="hljs-comment">//ここでTorusから整数に変わっていると考えていい</span>
-  <span class="hljs-keyword">for</span> j <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to t<span class="hljs-number">-1</span>
-    k = (āᵢ &gt;&gt; (<span class="hljs-number">32</span> - (j+<span class="hljs-number">1</span>)⋅basebit))&amp;(<span class="hljs-number">2</span>ᵇᵃˢᵉᵇⁱᵗ - <span class="hljs-number">1</span>) <span class="hljs-comment">//unicodeだとâᵢⱼを下付きにできないので</span>
-    <span class="hljs-keyword">if</span> k != <span class="hljs-number">0</span>
-      (𝐚̃,b̃) -= KSᵢⱼₖ
-<span class="hljs-keyword">return</span> (𝐚̃,b̃)
+<pre><code><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>IdentityKeSwitch((𝐚,b))
+  b̃=b
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to n<span class="hljs-number">-1</span>
+    ãᵢ = <span class="hljs-number">0</span>
+  prec_offset = <span class="hljs-number">1</span> &lt;&lt; (<span class="hljs-number">32</span> - (<span class="hljs-number">1</span> + basebit)) <span class="hljs-comment">//四捨五入のため</span>
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to N<span class="hljs-number">-1</span>
+    āᵢ = aᵢ+prec_offset <span class="hljs-comment">//ここでTorusから整数に変わっていると考えていい</span>
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">from</span> <span class="hljs-number">0</span> to t<span class="hljs-number">-1</span>
+      k = (āᵢ &gt;&gt; (<span class="hljs-number">32</span> - (j+<span class="hljs-number">1</span>)⋅basebit))&amp;(<span class="hljs-number">2</span>ᵇᵃˢᵉᵇⁱᵗ - <span class="hljs-number">1</span>) <span class="hljs-comment">//unicodeだとâᵢⱼを下付きにできないので</span>
+      <span class="hljs-keyword">if</span> k != <span class="hljs-number">0</span>
+        (𝐚̃,b̃) -= KSᵢⱼₖ
+  <span class="hljs-keyword">return</span> (𝐚̃,b̃)
 </span></span></foreignObject></svg></code></pre>
 <footer><img src="../image/ccbysa.png" alt="" /> <a href="https://creativecommons.org/licenses/by-sa/4.0/">licence</a></footer>
 </section>
