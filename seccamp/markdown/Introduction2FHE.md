@@ -40,6 +40,7 @@ matusoka.kotaro@gmail.com
 - 「暗号文のママ計算できる」暗号
 - 平文に対する演算と準同型な演算を暗号上で定義できる
 - 概念が提案されたのは1978年(RSAと同年)
+- DARPA、Intel、IBM、Microsftなどが鎬を削っている
 
 ---
 
@@ -120,10 +121,6 @@ $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathb
 
 ---
 
-# 質問時間
-
----
-
 ## TFHE
 
 - 第３世代FHEの一つ
@@ -138,6 +135,8 @@ $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathb
 - ここでは$\mathbb{R} \bmod 1$を定義とする。つまり、実数の小数部分で、$[0,1)$または$[-0.5,0.5)$に値をとる
 - Torusの集合を$𝕋$と書く
 - 加算の例: $0.8+0.6=1.4≡0.4 \bmod 1,0.3-0.9=-0.6 ≡ 0.4 \bmod 1$
+- 乗算は定義できない。$1.2≡0.2 \bmod 1,2.4≡0.4 \bmod 1$なので、乗算が定義できるなら$1.2⋅ 2.4=2.88≡0.2⋅0.4=0.08\bmod 1$だが成立しない。
+- 整数($\mathbb{Z}$)との乗算は定義できる例$3⋅ 0.4≡ 0.2 \bmod 1$
 - 実装レベルでは、32bitないし64bit整数を固定小数点数として使う
 
 ---
@@ -146,6 +145,8 @@ $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathb
 
 - Torus版のLWE
 - 全ての係数がTorusのもの(つまり平文もエラーもTorus)
+- 秘密鍵は$ℤ^n$なので$\mathbf{a}⋅\mathbf{s}$は問題なく計算できる
+- 実際にはTFHEでは高速化のために$\mathbf{s}∈𝔹^n$にとる
 - 実装としては$q=2^{32}$などにとったInteger LWEと同じになる
 - $q$の選択を忘れられるので理論として綺麗になる
 
@@ -165,7 +166,7 @@ $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathb
 
 - Torusにエンコードされた平文は{-1/8,1/8}
 - ２つのTLWEを足したものの平文は{-1/4,0,1/4}
-- これに-1/8を足すと{-3/8,-1/8,1/8}
+- これに(\mathbf{0},-1/8)を足すと{-3/8,-1/8,1/8}
 - -3/8になるのは両方の暗号文がバイナリの平文として0のとき
 - 1/8は両方1、-1/8は２つが異なる
 - この暗号文を復号すると、負符号のものは0に、正符号は1になる
@@ -207,4 +208,59 @@ $X^f⋅X^g⋅p[X] ≡ X^{f+g \bmod 2N}⋅p[X] \bmod X^N+1$
 - 入力となるTLWEを$(\mathbf{a},b)$、$[-N,N)∋ρ=⌈2N⋅b⌋ - ∑_{i=0}^{N-1}⌈2N⋅a_i⌋ \bmod 2N$とする
 - 全ての係数が$1/8$である多項式を$t[X]∈𝕋_N[X]$とする
 - $X^{-ρ}⋅t[X]$の定数項の符号は$ρ$($≈b-\mathbf{a}⋅\mathbf{s}$)の符号と同じになる
-- あとは定数項を取り出せば符号関数を評価できる
+- あとは定数項を取り出せば(Sample Extract Index)符号関数を評価できる
+
+---
+
+## TRGSW
+
+- Torus版Ring版 GSW(最初の第3世代FHE)
+- この暗号文形式が在るのがTFHEが第３世代である所以とも言える
+- 説明しだすと長いので詳細は省略
+- 平文が$μ[X]∈ℤ[X]$に取られることと、以下の演算が定義されることだけが大事
+- 実際には$μ[X]$は$𝔹$にとられる(理由は次のスライド)
+
+## External Product
+
+TRGSW⊡TRLWE→TRLWE
+- 平文の計算としては$μ[X]⋅m[X]$
+
+---
+
+## CMUX
+
+- $\mathbf{C}$を平文が$𝔹$なTRGSW、$c_1[X],c_0[X]$をTRLWEとする
+- 以下の計算は$\mathbf{C}$の平文が1なら$c_1[X]$を、0なら$c_0[X]$を返す
+$\mathbf{C}⊡(c_1[X]-c_0[X])+c_0[X]$
+- これを使いたいので平文は$𝔹$だけでよい
+
+---
+
+## CMUXを使ったBlind Rotateの構成
+
+- Remark: TRLWEの$a[X],b[X]$をそれぞれX倍すると平文もX倍される
+- 前に述べたように、$\mathbf{s}∈𝔹^n$にTFHEは制限している
+- $\mathbf{BK}_i$を$\mathbf{s}$の$i$番目の係数を平文とするTRGSWとする
+- $X^{-ρ}⋅t[X]$は以下のような疑似コードで暗号上で計算することができる
+```
+BlindRotaete((𝐚,b),𝐁𝐊
+  b̃=2N-⌈2N⋅b⌋
+  trlwe = (\mathbf{0},X⁻ᵇ̃⋅t[X])
+  for i from 0 to n-1
+    ã=⌈2N⋅aᵢ⌋
+    trlwe = CMUX(𝐁𝐊ᵢ,Xᵃ̃⋅trlwe,trlwe)//Dec(𝐁𝐊ᵢ)?Xᵃ̃⋅trlwe:trlwe
+  return trlwe
+```
+
+---
+
+## Sample Extract Index
+
+- 任意の次数の係数をTRLWEから取り出してTLWEを構成する操作
+- $b[X]-a[X]⋅s[X]$の$k$次の係数は以下のように書ける
+$b_k-(∑_{i+j=k,0≤i,j≤N-1}a_i⋅s_j)-(∑_{i+j=N+k,0≤i,j≤N-1}-a_i⋅s_j)$
+- $\mathbf{s}'$は$s[X]$の$i$次の係数を$i$番目の要素とするベクトル
+- $0$次の係数を取り出したTLWEを$(\mathbf{a}',b_0)$とすると$\mathbf{a}'$の要素は$a_0'=a_0,a_i'=a_{N-i}$
+- これは$b_0-\mathbf{a}'⋅\mathbf{s}'$が上の式で$k=0$とした場合と同じになっている
+- このTLWEは$\mathbf{a}$の次数が$n$ではなく$N$になっている
+- これを変換するのがIdentity Key Switch
