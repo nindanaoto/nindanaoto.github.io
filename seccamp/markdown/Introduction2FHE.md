@@ -91,7 +91,7 @@ gmail: matsuoka.kotaro
 - $(\mathbf{a}_1,b_1)+(\mathbf{a}_2,b_2)=(\mathbf{a}_1+\mathbf{a}_2,b_1+b_2)$とする
 $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathbf{a}_1⋅\mathbf{s})+(b_2-\mathbf{a}_2⋅\mathbf{s})\\&=m_1+m_2+e_1+e_2\end{aligned}$$
 - ここで重要なのは加法によってエラー$e$も増えること
-- 復号では丸めを行うのでエラーが増えすぎると誤ったメッセージに丸める可能性が在る
+- エラーが増えすぎると復号で誤ったメッセージに丸める可能性が在る
 - ∴任意の関数を評価するにはエラーを除去する必要が在る
 
 ---
@@ -222,7 +222,7 @@ $X^f⋅X^g⋅p[X] ≡ X^{f+g \bmod 2N}⋅p[X] \bmod X^N+1$
 - 今評価したいのは復号の要である符号関数
 - 全ての係数が$1/8$である多項式を$t[X]∈𝕋_N[X]$とする
 - $X^{-ρ}⋅t[X]$の定数項の符号は$ρ$($≈b-\mathbf{a}⋅\mathbf{s}$)の符号と同じになる
-- ∵ $0≤ρ<N⇒$定数項は$t_ρ=1/8,-N≤ρ<0⇒$定数項は$-t_{N+ρ}=-1/8$
+- ∵ $0≤ρ<N⇒$定数項は$t_ρ=1/8,-N≤ρ<0⇒-t_{N+ρ}=-1/8$
 - Remark: 入力のエラーは隣のスロットを選ぶ可能性をもたらすが、$ρ$の符号が変わらないなら結果に影響を及ぼさない
 ![w:300px](../image/RotateRound.png)
 
@@ -262,7 +262,7 @@ $\mathbf{C}⊡(c_1[X]-c_0[X])+c_0[X]$
 ```
 BlindRotaete((𝐚,b),𝐁𝐊)
   b̃=2N-⌈2N⋅b⌋
-  trlwe = (\mathbf{0},X⁻ᵇ̃⋅t[X])
+  trlwe = (0,X⁻ᵇ̃⋅t[X])
   for i from 0 to n-1
     ã=⌈2N⋅aᵢ⌋
     trlwe = CMUX(𝐁𝐊ᵢ,Xᵃ̃⋅trlwe,trlwe)//Dec(𝐁𝐊ᵢ)?Xᵃ̃⋅trlwe:trlwe
