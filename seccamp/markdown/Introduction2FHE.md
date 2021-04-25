@@ -31,7 +31,7 @@ style: |
 # 完全準同型暗号入門
 
 佐藤研究室 松岡　航太郎
-matusoka.kotaro gmail
+gmail: matsuoka.kotaro
 
 ---
 
