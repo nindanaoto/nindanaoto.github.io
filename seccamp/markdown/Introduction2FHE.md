@@ -41,6 +41,8 @@ matusoka.kotaro@gmail.com
 - 平文に対する演算と準同型な演算を暗号上で定義できる
 - 概念が提案されたのは1978年(RSAと同年)
 - DARPA、Intel、IBM、Microsftなどが鎬を削っている
+- 他の秘密計算の手法である秘密分散、Garbled Circuit、TEEとは状況に応じて使い分けられる
+- 流行りの応用は医療データなどの機密性の高いデータを扱うPrivate AI
 
 ---
 
@@ -242,6 +244,7 @@ $\mathbf{C}⊡(c_1[X]-c_0[X])+c_0[X]$
 - 前に述べたように、$\mathbf{s}∈𝔹^n$にTFHEは制限している
 - $\mathbf{BK}_i$を$\mathbf{s}$の$i$番目の係数を平文とするTRGSWとする
 - $X^{-ρ}⋅t[X]$は以下のような疑似コードで暗号上で計算することができる
+- Remark: 出力のエラーは入力のTLWEのエラーに依存しない
 ```
 BlindRotaete((𝐚,b),𝐁𝐊
   b̃=2N-⌈2N⋅b⌋
@@ -262,5 +265,45 @@ $b_k-(∑_{i+j=k,0≤i,j≤N-1}a_i⋅s_j)-(∑_{i+j=N+k,0≤i,j≤N-1}-a_i⋅s_j
 - $\mathbf{s}'$は$s[X]$の$i$次の係数を$i$番目の要素とするベクトル
 - $0$次の係数を取り出したTLWEを$(\mathbf{a}',b_0)$とすると$\mathbf{a}'$の要素は$a_0'=a_0,a_i'=a_{N-i}$
 - これは$b_0-\mathbf{a}'⋅\mathbf{s}'$が上の式で$k=0$とした場合と同じになっている
-- このTLWEは$\mathbf{a}$の次数が$n$ではなく$N$になっている
+- このTLWEは$\mathbf{a}'$の次数が$n$ではなく$N$になっている
 - これを変換するのがIdentity Key Switch
+
+---
+
+## Identity Key Switch
+
+- Key SwitchはTLWEを異なる秘密鍵のTLWEへと変換する操作($\mathbf{s}'→\mathbf{s}$)
+- 基本的なアイデアは$b'-∑_{i=0}^{N-1}2^{-t}⌈2^t⋅a_i'⋅s_i'⌋$を暗号上で計算すること
+- KSᵢⱼを$\mathbf{s}$を秘密鍵、$2^{-j}⋅s'_i$を平文とするTLWEとする
+```
+IdentityKeySwitch((𝐚',b'),𝐊𝐒)
+  b̃=b'
+  for i from 0 to n
+    ãᵢ = 0
+  for i from 0 to N
+    for j from 0 to t-1
+      (𝐚̃,b̃) -= (⌊aᵢ'*2ʲ⁺¹⌋ mod 2) ⋅ KSᵢⱼ
+  return (𝐚̃,b̃)
+```
+
+---
+
+## HomNAND(再掲)
+
+- これらを全てつなげるとNANDが評価できる
+- 説明しなかったのはTRGSWの話だけ(一番面倒では在る)
+
+![width:1200px](../image/HomNANDdiagram.png)
+
+---
+
+## 準同型暗号の展望
+
+- TFHEのゲートは10msかかるので物理論理ゲートに比べると10⁹ほど遅い
+- 他の準同型暗号も平文の演算に比べるとずっと遅い
+- DARPAはこれを専用ハードウェアで押し切ろうとしている
+- そもそもまだ暗号学的改善の余地も在る
+- [標準化](https://homomorphicencryption.org/standard/)の動きも在る
+- 謎の準同型暗号ベンチャーは雨後の筍状態
+- 理論的な問題としてはMalleabilityの問題が在る
+- 準同型暗号は秘密計算の「聖杯」≠「銀の弾丸」
