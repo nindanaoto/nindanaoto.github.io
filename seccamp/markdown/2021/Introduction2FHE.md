@@ -163,6 +163,7 @@ $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathb
 - 符号関数$\mathit{sgn}$が丸めになっている
 
 ---
+
 ## バイナリ演算のアイデア
 
 - Torusにエンコードされた平文は{-1/8,1/8}
@@ -182,7 +183,7 @@ $$\begin{aligned}(b_1+b_2)-(\mathbf{a}_1+\mathbf{a}_2)⋅\mathbf{s}&=(b_1-\mathb
 - 任意の２入力ゲートは足し算の符号と定数を変えることで構成可能
 - TFHEで実際に復号を評価するためのアイデアを見ていく
 
-![width:1200px](../image/HomNANDdiagram.png)
+![width:1200px](../../image/HomNANDdiagram.png)
 
 ---
 
@@ -224,7 +225,7 @@ $X^f⋅X^g⋅p[X] ≡ X^{f+g \bmod 2N}⋅p[X] \bmod X^N+1$
 - $X^{-ρ}⋅t[X]$の定数項の符号は$ρ$($≈b-\mathbf{a}⋅\mathbf{s}$)の符号と同じになる
 - ∵ $0≤ρ<N⇒$定数項は$t_ρ=1/8,-N≤ρ<0⇒-t_{N+ρ}=-1/8$
 - Remark: 入力のエラーは隣のスロットを選ぶ可能性をもたらすが、$ρ$の符号が変わらないなら結果に影響を及ぼさない
-![w:300px](../image/RotateRound.png)
+![w:300px](../../image/RotateRound.png)
 
 ---
 
@@ -307,7 +308,7 @@ IdentityKeySwitch((𝐚',b'),𝐊𝐒)
 - これらを全てつなげるとNANDが評価できる
 - 説明しなかったのはTRGSWの話だけ(一番面倒では在る)
 
-![width:1200px](../image/HomNANDdiagram.png)
+![width:1200px](../../image/HomNANDdiagram.png)
 
 ---
 
