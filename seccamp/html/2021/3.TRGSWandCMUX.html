@@ -663,13 +663,15 @@ code{
 <li>このアイデアをナイーブに実装した場合の疑似コードを示そう
 <ul>
 <li>やっていることはほぼ繰り上がり計算なので加算機にそれを任せる最適化が可能だが複雑になりすぎるのでここでは説明しない</li>
+<li>Torusは32bit固定小数点表現されていることを仮定している</li>
 </ul>
 </li>
 </ul>
-<pre><code><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>Decompositionhat(a[X])
+<pre><code><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>Decomposition(a[X])
+  roundoffset = 1 &lt;&lt; (32 - l * Bgbit - 1)
   for i from 1 to l
     for j from 0 to N-1
-      âᵢⱼ=((aⱼ&gt;&gt;(32-Bgbit*i))&amp;(Bg-1))
+      âᵢⱼ=(((aⱼ+roundoffset)&gt;&gt;(32-Bgbit*i))&amp;(Bg-1))
   for i from l to 1
     for j from 0 to N-1
       if âᵢⱼ ≥ Bg/2
