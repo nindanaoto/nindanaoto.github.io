@@ -41,10 +41,18 @@ style: |
     - 今日の話も準同型暗号と密接に関わりのある話
 - 研究室は集積回路
     - 今準同型暗号を高速化できるハードウェアを作ったりしてる
+    - 1月にASP-DAC(韓国)でしゃべる
 - 京都大学工学部電気電子工学科卒　特色入試
 - 東京都立戸山高等学校卒
 - 2019年度未踏スーパークリエータ
-- 京都大学機械研究会(2019年度NHK学生ロボコン優勝)
+- 京都大学機械研究会
+
+---
+
+- Kotaro Matsuoka, Ryotaro Banno, Naoki Matsumoto, Takashi Sato, & Song Bian. (2020). Virtual Secure Platform: A Five-Stage Pipeline Processor over TFHE. 
+- Kotaro Matsuoka, Yusuke Hoshizuki, Takashi Sato, & Song Bian. (2021) Towards Better Standard Cell Library: Optimizing Compound Logic Gates for TFHE.
+- Ryotaro Banno, Kotaro Matsuoka, Naoki Matsumoto, Song Bian, Masaki Waga, & Kohei Suenaga. (2022). Oblivious Online Monitoring for Safety LTL Specification via Fully Homomorphic Encryption. 
+- Kotaro Matsuoka, Yasutomo Yushima, Ryo Hayakawa, Riho Kawasaki, Kazunori Hayashi, Megumi Kaneko, An RFID tag identification protocol via Boolean compressed sensing
 
 ---
 
@@ -169,7 +177,7 @@ $$
 ## Montgomery Reduction (1985年)
 
 - RSA暗号の計算のべき乗によく使われる
-- $q<R$を2冪の値(大抵wordサイズと一致)とする
+- $q<R$を2冪の値とする
 - 入力$0 \leq a<qR$に対し$0\leq aR^{-1}\bmod q < q$が返ってくる
 - q' = $q^{-1} \bmod q$
 - $R$をかけた状態にしてから適用する必要がある
@@ -177,9 +185,9 @@ $$
 - $\log_2 R$bit同士の乗算が2回ある
 
 ```
-m ← ((a bmod R) q') mod R
-t ← (T + mN)/R //右シフト
-return  t ≥ N ? t - N : t
+m ← ((a mod R) q') mod R
+t ← (a + mq)/R //右シフト
+return  t ≥ q ? t - q : t
 ```
 
 ---
@@ -203,39 +211,74 @@ return a₁ - t
 
 - アイデアとしては除算を逆数との積に置き換える
 - $4q<R,r=\lfloor R/q \rfloor$とする
-- $0\leq a < q^2$に対し$0\leq aR^{-1}\bmod q < q$が返ってくる
+- $0\leq a < q^2$に対し$0\leq a\bmod q < q$が返ってくる
 - $2\log_2 q$bitと$\log_2 R$bitの乗算が1回と$\log_2 R$bit同士の乗算が1回
   - 一般にはMontgomeryより重い
   - NTTで使う場合には定数との掛け算をするので改良ができる
 ```
 t ← a - q⋅⌊ar/R⌋
-return  t ≥ N ? t - N : t
+return  t ≥ q ? t - q : t
 ```
 
 ---
 
-## Shoup's Algorithm
+## (再びの)Harvery's Algorithm(2014)
 
-- 
+- [NTL](https://libntl.org/)で使われているShoup's algorithmの改良
+  - 現在最も広く使われている([Intel HEXL](https://github.com/intel/hexl)など)
+- 回転因子は定数なのでそこに割り算を埋め込んでおく
+- 大きな桁のかけ算がない($R$が3回で1回分は入力のかけ算)
 
----
-
-## Harvery's Algorithm
-
----
-
-## Plantard Reduction
+![width:650px](../../image/harvey.png)
 
 ---
 
-## Signed Plantard Reduction
+## Plantard Reduction (2021)
 
+- [Efficient word size modular arithmetic](https://eprint.iacr.org/2022/956)
+- $0 \leq A,B < q$の乗算が前提のReduction
+- $R$は2冪で$q<\frac{R}{\phi}, \phi = \frac{1+\sqrt{5}}{2}$
+- $q' = q^{-1} \bmod R^2$
+- 一般にはRの積2回(1回は入力の積)とR²の積1回
+  - Barretより重い
+- Bが定数だと$Bq'$を先に計算できる($R$が1回と$R$と$R^2$が1回)
+  - $R^2$のかけ算1回の方が$R$のかけ算2回より早いとき有利(Rが16bit以下の時とか)
+
+```
+C ← ⌊((⌊(ABq' mod R²)/R⌋+1)q)/R⌋
+return C==q ? 0 : C
+``` 
+
+---
+
+## Signed Plantard Reduction (2022)
+
+- [Efficient Word Size Modular Multiplication over
+Signed Integers](http://crypto.mist.i.u-tokyo.ac.jp/publications/782700a094.pdf)
+
+![width:650px](../../image/signedplantard.png)
+
+---
+
+## Reductionのまとめ
+
+1. Montgomery
+  - $R^{-1}$が掛ってしまうのでアルゴリズム全体の修正が必要
+  - 大体の場合で軽め($R$の乗算が2回)
+2. Barret(Harvey)
+  - 大きめのかけ算が必要, 一般にMontgomeryより遅いが表現の変更は不要
+    - ($R^2$と$R$の乗算が1回と$R$の乗算が1回)
+  - NTTだと定数乗算しかないので改善できる($R$の乗算が2回)
+    - 実はメモリ的には定数2倍送らないと行けないので不利だったりはする
+3. Plantard
+  - 入力の乗算を除くと$R^2$の乗算が1回
+    - 組み込みプロセッサで小さな法を扱うとき(耐量子計算機暗号の一部など)早い
 
 ---
 
 ## 特別な法
 
-- 一般には2基底までしかできないのは原始根の$\frac{N}{2^i}, i \geq 2$乗との積が計算しにくいから
+- 一般に2基底しかできないのは原始根の$\frac{N}{2^i}, i \geq 2$乗との積が計算しにくいから
   - FFTだと$\frac{N}{4}$乗は$i$,$\frac{N}{8}$乗は$\frac{1+i}{\sqrt{2}}$
 - 逆に言えばそういう特別な原始根があるような法なら高速に計算できる
   - ここでは$2^{64}-2^{32}+1$と$k^{r/2}⋅2^{ri}+1$を紹介
@@ -247,9 +290,30 @@ return  t ≥ N ? t - N : t
 
 - この数字はGoldilocks primeの一つでもある
   - [Ed448-Goldilocks, a new elliptic curve](https://eprint.iacr.org/2015/625), 2015年
+- 形を見ればわかるとおりReductionが非常に簡単
+- $2^{192} \equiv 1 \bmod 2^{64}-2^{32}+1$
+　- $64$基底まで左シフトで実装できる
+- zkEVM, Plonky2, 0xPolygonなんかでもこの法をつかっているらしい
 
 ---
 
 ## $k^{r/2}⋅2^{ri}+1$
 
 - 私が(多分最初に?)見つけて使っている数字
+　- Montgomery Friendry Primeに分類できる
+    - [Montgomery-friendly primes and applications to cryptography](https://eprint.iacr.org/2020/665.pdf)
+    - Reductionが簡単なことは知られているが回転因子としての性質の良さは利用されていなかったらしい
+- $(k\cdot 2^i)^r \equiv -1 \bmod k^{r}⋅2^{ri}+1$
+  - $k$が乗算の計算しやすい値なら高速に計算できる
+  - $2r$基底までできる
+  - 例: $k=5,r=4,i=4,5$が使える
+- $(k^{r}⋅2^{ri}+1)\cdot (k^{r}⋅2^{ri}-1) \equiv -1 \bmod 2^{ri+1}$
+  - Montgomeryの$q'$が$-(k^{r}⋅2^{ri}-1)$にとれるので簡単
+
+---
+
+## 他にいい感じの法あるの?
+
+- Reductionが効率的な法は知られている
+  - 競技プログラミングとかで使われがち
+  - 基底も大きくできるやつみつけたら教えてください
