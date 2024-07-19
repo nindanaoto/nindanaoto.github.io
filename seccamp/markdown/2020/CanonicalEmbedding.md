@@ -64,4 +64,4 @@ $$g_i(x_j)=\begin{cases}1\qquad if\quad i==j\\ 0\qquad otherwise\end{cases}$$
 
 ## 参考文献
 
-- [The Chinese Remainder Theorem](https://math.berkeley.edu/~kmill/math55sp17/crt.pdf)
+- [The Chinese Remainder Theorem](https://math.berkeley.edu/~kmill/math55sp17/crt.pdf) 
