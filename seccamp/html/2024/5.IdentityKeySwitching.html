@@ -300,10 +300,10 @@ code{
   roundoffset = 1 &lt;&lt; (32 - (1 + basebit * t)) //四捨五入のため
   b̄=b
   𝐚̄ = 0⃗
-  for i from 1 to t
+  for i from 0 to t-1
     for j from 0 to kN - 1
-      âᵢⱼ = ((aⱼ+roundoffset)&gt;&gt; (32 - (m+1)⋅basebit))&amp;(2ᵇᵃˢᵉᵇⁱᵗ - 1)
-  for i from t to 1
+      âᵢⱼ = ((aⱼ+roundoffset)&gt;&gt; (32 - (i+1)⋅basebit))&amp;(2ᵇᵃˢᵉᵇⁱᵗ - 1)
+  for i from t-1 to 0
     for j from 0 to kN-1
       if âᵢⱼ ≥ 2ᵇᵃˢᵉᵇⁱᵗ⁻¹
         âᵢⱼ -= 2ᵇᵃˢᵉᵇⁱᵗ
@@ -405,10 +405,10 @@ code{
   roundoffset = 1 &lt;&lt; (32 - (1 + basebit * t)) //四捨五入のため
   b̄=b
   𝐚̄ = 0⃗
-  for i from 1 to t
+  for i from 0 to t-1
     for j from 0 to kN - 1
-      âᵢⱼ = ((aⱼ+roundoffset)&gt;&gt; (32 - (m+1)⋅basebit))&amp;(2ᵇᵃˢᵉᵇⁱᵗ - 1)
-  for i from t to 1
+      âᵢⱼ = ((aⱼ+roundoffset)&gt;&gt; (32 - (i+1)⋅basebit))&amp;(2ᵇᵃˢᵉᵇⁱᵗ - 1)
+  for i from t-1 to 0
     for j from 0 to kN-1
       if âᵢⱼ ≥ 2ᵇᵃˢᵉᵇⁱᵗ⁻¹
         âᵢⱼ -= 2ᵇᵃˢᵉᵇⁱᵗ
