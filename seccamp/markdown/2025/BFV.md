@@ -124,15 +124,104 @@ style: |
 2. TRLWEの加法性と乗法性
 3. Relinearlization
 4. RNSととBootstrapping
+
 ---
 
 ## TRLWEとは
 
-- Torus Ring-LWEの略
-- TLWEは平文がスカラーだったが、TRLWEでは多項式になる
+- Torus Ring Learning With Errorsの略
+  - LWEの多項式環版のトーラス係数版
+- 多項式を暗号化する暗号化方式
 - Ringは多項式『環』の上で定義することから来ている
   - 課題でやってもらった多項式の剰余演算が出てくる
-  - 厳密にはTorus係数多項式だと環じゃない気もしないでもない
+  - 厳密にはTorus係数多項式だと環じゃない気がする
+    - 後に見るようにTorusには乗算が定義できない
+
+---
+
+## Torusの直感的定義
+
+- 日本語で言うと円周群のこと。$\mathbb{T}$とかく。
+- 時計の針の角度をイメージすると良い
+- 具体的な数字としては針の角度を2πで割ったもの
+
+---
+
+## Torusとは
+
+- ここでは、$\mathbb{R} \bmod 1$を定義とする。つまり、実数の小数部分で、$[0,1)$または$[-0.5,0.5)$に値をとる
+  - 理論を理解する上では$[-0.5,0.5)$だけでもよい
+  - $[0,1)$は実装上効率が良い場合が在る
+- Torus同士の乗算は定義されないが、加算は定義できる
+- 加算の例: $0.8+0.6=1.4≡0.4 \bmod 1,0.3-0.9=-0.6 ≡ 0.4 \bmod 1$
+- 乗算が定義できない。例: $1.2≡0.2 \bmod 1,2.4≡0.4 \bmod 1$なので、乗算が定義できるなら$1.2⋅ 2.4=2.88≡0.2⋅0.4=0.08\bmod 1$だが成立しない。
+- 整数($\mathbb{Z}$)との乗算は定義できる。例:$3⋅ 0.4≡ 0.2 \bmod 1$
+
+---
+
+## モジュラー正規分布
+
+- Modular Gaussian Distribution。
+- 通常の正規分布のサンプルは実数($\mathbb{R}$)に値をとるが、これはTorusに値をとる
+  - 離散ガウス分布は整数に丸めるがこれはTorus
+  - 実際の実装は整数に近似するので離散正規分布を使うべき説はある
+- 正規分布のサンプルを$\bmod 1$したものがモジュラー正規分布
+  - これをエラーに使うのがTFHEでは最も標準的なのでまずはこれから
+
+
+---
+
+## TRLWEの具体的構成(平文が$\mathbb{T}_N[X]$の場合)
+
+- 暗号の安全性を決めるパラメータは2つで$N∈\mathbb{Z}^+,α_{bk} \in \mathbb{R}^+$
+- $\mathbf{a}[X] ∈ \mathbb{T}_N[X],b[X],m[X],e[X] \in \mathbb{T}_N[X], S[X] \in \mathbb{B}^\pm_N[X]$とする
+  - $\mathbb{B}^\pm = {-1,0,1}$は一般にTernaryと呼ぶ(表記は一般的ではない)
+- $m[X]$が平文、$\mathbf{a}[X]←U_{\mathbb{T}_N[X]}$,$e[X]←\mathcal{D}_{\mathbb{T}_N[X],α_{bk}}$,$S[X]←U_{(\mathbb{B}^\pm_N[X])^k}$とする
+- TRLWEの暗号文は$b[X]=a[X]⋅ S[X]+ m[X] +e[X]$として、$(a[X],b[X])$という$N-1$次の多項式$2$要素のベクトルである
+- $b[X]-a[X]⋅S[X]=m[X]+e[X]$になるので、この$e[X]$をどうにかして削除する方法を加えると$m[X]$がとれて復号できる
+- $N,k,α_{bk}$を大きくすればするほど安全($α_{bk}$は大きくしすぎると暗号文が壊れる)
+- 同じ安全性・データならTLWEよりTRLWEはサイズが小さい(と信じられている)
+
+---
+
+## TRLWEの具体的構成(平文が$(\mathbb{Z}_t)_N[X]$の場合, BFVの暗号文)
+
+- $m[X] \in (\mathbb{Z}_t)[X], Δ=\frac{1}{t}\in\mathbb{T}$とする
+- TRLWEの暗号文は$b[X]=a[X]\cdot S[X]+Δ⋅ m[X]+e[X]$
+- 復号は$\lceil (b[X]-a[X]\cdot S[X])/Δ\rfloor$
+  - ここの丸めはuintでやった方が考えやすいかも?
+
+---
+
+## Torusの実装法
+
+- 実数の小数部の集合なのでナイーブには倍精度浮動小数点数で実装したくなる
+  - ただ、倍精度浮動小数点数で$\bmod 1$の計算をするのは重い
+- そこで、小数点が最上位bitの前にあるような固定小数点数を用いることにする
+- 例:8bit幅の場合、$0.5$は$0b1000000$、$0.375$は$0b01100000$になる
+- この方法だと加算や乗算で出た整数部分はオーバーフローで捨てられ剰余が不要
+- 例:8bit幅の場合、$0.5+0.625 \bmod 1=0b1000000+0b10100000=0b0010000=0.125 \bmod 1$
+- 固定小数点数の幅は$e$が十分に表現できる程度の幅($q$)であれば良い
+  - つまりモジュラー正規分布の標準偏差によって十分な幅が決まる
+- 符号付きで考えたほうが一般性があるためそちらを想定するが符号なしでも構成できるはず
+  - 符号付きが必要な時だけ切り替えればよい
+
+---
+
+## 実数とトーラスの変換の実装
+
+- モジュラー正規分布の実装には実数とTorusの変換が必要
+- 理想的には実数の小数部分を取り出す操作
+- 実数の小数部分を取り出すだけなら、$d \mod{1}$でよい
+- 実際には固定幅の固定小数点にしたいので、実数の上から$\mathrm{lb}\ q$の部分を整数として取り出す
+- $\bmod 1$はPythonだと正の数になるのでuintにしてからintにする
+  - Python組み込みのIntの場合, intへの変換は$q/2$を以上なら$q/2$を引く
+  - NumpyならCと同じでuint64をint64にするとbit列として解釈され意図通り
+- 実装したい操作を数式で書くと以下のようになる
+
+$$
+\mathrm{uint}(\mathrm{int}((d \mod{1})⋅q))
+$$
 
 ---
 
@@ -142,6 +231,7 @@ style: |
 - ２つの元を掛け算, その剰余を取り, 係数の小数部を抜き出せば良い
   - 係数の型を適切にとればオーバフローにより係数の剰余は自動的にとれる
 - 入力を$a[X]∈\mathbb{T}_N[X],b[X]∈\mathbb{Z}_N[X]$とする
+  - 実装上は両方整数なので気にすることはないが
 - $a[X]=\sum_{i=0}^{N-1}a_iX^i,a_i∈\mathbb{T}$である
 
 ```
@@ -157,33 +247,10 @@ for i from 0 to N-1
 
 ---
 
-## TRLWEの具体的構成(平文が$\mathbb{T}_N[X]$の場合)
-
-- 暗号の安全性を決めるパラメータは3つで$N,k∈\mathbb{Z}^+,α_{bk} \in \mathbb{R}^+$
-  - 厳密には$k=1$の場合のみがTRLWEで$k>1$の場合はTMLWEと呼ぶべきか
-    - 本講義ではTRLWEと一緒くたに呼ぶ
-- $\mathbf{a}[X] ∈ (\mathbb{T}_N[X])^k,b[X],m[X],e[X] \in \mathbb{T}_N[X], \mathbf{s}[X] \in (\mathbb{B}^\pm_N[X])^k$とする
-  - $\mathbb{B}^\pm = {-1,0,1}$は一般にTernaryと呼ぶ(表記は一般的ではない)
-  - binaryだと安全性が足らなくなるので増やす
-- $m[X]$が平文、$\mathbf{a}[X]←U_{(\mathbb{T}_N[X])^k}$,$e[X]←\mathcal{D}_{\mathbb{T}_N[X],α_{bk}}$,$\mathbf{s}[X]←U_{(\mathbb{B}_N[X])^k}$とする
-- TRLWEの暗号文は$b[X]=\mathbf{a}[X]⋅ \mathbf{s}[X]+ m[X] +e[X]$として、$(\mathbf{a}[X],b[X])$という$N-1$次の多項式$k+1$要素のベクトルである
-- $b[X]-\mathbf{a}[X]⋅\mathbf{s}[X]=m[X]+e[X]$になるので、この$e[X]$をどうにかして削除する方法を加えると$m[X]$がとれて復号できる
-- $N,k,α_{bk}$を大きくすればするほど安全($α_{bk}$は大きくしすぎると暗号文が壊れる)
-- 同じ安全性・データならTLWEよりTRLWEはサイズが小さい(と信じられている)
-
----
-
-## TRLWEの具体的構成(平文が$(\mathbb{Z}_t)_N[X]$の場合, BFVの暗号文)
-
-- $m[X] \in (\mathbb{Z}_t)[X], Δ=\frac{1}{t}\in\mathbb{T}$とする
-- TRLWEの暗号文は$b[X]=\mathbf{a}[X]⋅ \mathbf{s}[X]+Δ⋅ m[X]+e[X]$
-- 復号は$\lceil (b[X]-\mathbf{a}[X]⋅ \mathbf{s}[X])/Δ\rfloor$
-
----
-
 ## 演習タイム(課題3)
 
-- ここまで説明したTRLWEを実装しよう
+- ここまで説明したTRLWEの暗号化と復号を実装しよう
+  - 課題3のテストが通ればとりあえずよし
 - $q=2^{64}, N=2^{11}, α=2^{-51}$
 
 ---
@@ -203,16 +270,35 @@ for i from 0 to N-1
 ## BFVの乗算(naive)
 
 - TRLWEは乗算に近いものも定義できる
+  - 乗算するために片方を$q'$倍して整数に丸める
 $$
 \begin{aligned}
-(b_0[X] -  a_0[X] \cdot S[X]) \cdot (b_1[X] - a_1[X]\cdot S[X]) &= (\lceil m_0[X] \cdot \Delta \rfloor + e[X]) \cdot (\lceil m_1[X] \cdot \Delta \rfloor + e_1[X])\\
-b_0[X] \cdot b_1[X] - (a_0[X] \cdot b_1[X] + a_1[X] \cdot b_0[X]) \cdot S[X] + a_0[X] \cdot a_1[X] \cdot S[X]^2 & \approx  \lceil m_0[X] \cdot m_1[X] \cdot \Delta^2 \rfloor + e_2[X]\\
-\lceil \frac{b_0[X] \cdot b_1[X] - (a_0[X] \cdot b_1[X] + a_1[X] \cdot b_0[X]) \cdot S[X] + a_0[X] \cdot a_1[X] \cdot S[X]^2}{\Delta} \rfloor& \approx  \lceil m_0[X] \cdot m_1[X] \cdot \Delta \rfloor e_2[X]
+\lceil q'\cdot(b_0[X] -  a_0[X] \cdot S[X]) \rfloor \cdot (b_1[X] - a_1[X]\cdot S[X]) &= \lceil q'\cdot (m_0[X] \cdot \Delta + e[X])\rfloor \cdot (m_1[X] \cdot \Delta + e_1[X])\\
+\approx \lceil q' \cdot b_0[X] \rfloor \cdot b_1[X] - (\lceil q' \cdot a_0[X]\rfloor \cdot b_1[X] + a_1[X] \cdot \lceil q' \cdot b_0[X] \rfloor) \cdot S[X] + \lceil q'\cdot a_0[X]\rfloor \cdot a_1[X] \cdot S[X]^2 & \approx  \lceil q' \cdot m_0[X] \cdot m_1[X] \cdot \Delta^2 \rfloor + e_2[X]\\
+(\frac{\lceil q' \cdot b_0[X] \rfloor \cdot b_1[X] - (\lceil q' \cdot a_0[X]\rfloor \cdot b_1[X] + a_1[X] \cdot \lceil q' \cdot b_0[X] \rfloor) \cdot S[X] + \lceil q'\cdot a_0[X]\rfloor \cdot a_1[X] \cdot S[X]^2}{q'\cdot\Delta}) \bmod 1& \approx  \lceil m_0[X] \cdot m_1[X] \cdot \Delta \rfloor e_2[X]
 \end{aligned}
 $$
 
-- ということは乗算結果の新しい暗号文として$\lceil\frac{(a_0[X] \cdot b_1[X] + a_1[X] \cdot b_0[X], b_0[X] \cdot b_1[X],  a_0[X] \cdot a_1[X] )}{\Delta}\rfloor = (a_2[X], b_2[X], c_2[X])$ を与えれば乗算になる
-  - $\Delta$で割るので乗算は剰余を取らずに実数として考えて実行する
+- ということは乗算結果の新しい暗号文として$\lceil\frac{(\lceil q' \cdot a_0[X]\rfloor \cdot b_1[X] + a_1[X] \cdot \lceil q' \cdot b_0[X] \rfloor, \lceil q' \cdot b_0[X] \rfloor \cdot b_1[X],  \lceil q' \cdot a_0[X]\rfloor \cdot a_1[X] )}{q'\cdot\Delta}\rfloor = (a_2[X], b_2[X], c_2[X])$ を与えれば乗算になる
+  - この形の暗号文の名前は把握していない
+  - $q'\cdot\Delta$で割るので乗算は剰余を取らずに実数として考えて実行する
+  - あるいは先にTorusを$q'\cdot\Delta$で割っていると考える
+    - Torusはdivisible gorupでもあるので整数で割ることはvalidな演算(のはず)
+
+---
+
+## 実装における実際の挙動
+
+- $q'$は本来$q$とは独立に選べる
+  - しかし明らかに$q'< q$のとき丸め誤差が入る
+  - $q'=q$に取ってしまえばここを考えなくていい
+  - 見たことある実装は基本的にこのアプローチ
+- つまり実装上は$q'$は出てこなくてすべての多項式を整数係数多項式だと思って$q\cdot \Delta$で割ればいい
+  - 実装上は$\Delta$も$\mod q$上なので$\Delta$で割る形で書くことになる
+    - 課題3での$\Delta$の定義を参照のこと
+- つまりコード上はこんな見た目になる
+
+$\lceil\frac{(a_0[X] \cdot b_1[X] + a_1[X] \cdot b_0[X], b_0[X] \cdot b_1[X],  a_0[X] \cdot a_1[X] )}{\Delta}\rfloor = (a_2[X], b_2[X], c_2[X])$
 
 ---
 
@@ -221,10 +307,12 @@ $$
 - 除算して乗算の上側をとることになるので一時的に64bitより大きい計算が必要
   - long double(x86のWindows以外の環境なら80bit)で計算するのが一番楽?
     - numpyで実装できる
-    - ちょっと誤差が出るが, 暗号のエラーと区別できないのであまり問題ではない
-  - 精度を維持したいならPythonの組み込み整数型は精度に上限がないのでそれも簡単
+    - 誤差が出るが, 暗号のエラーと区別できないのであまり問題でない
+    - 提供する高速版はこのアプローチが自然にとれるようにしてある
+  - 精度を維持したいならPythonの整数型は精度に上限がないのでそれも簡単
+    - おそらく見れる速度にはならないのでやめた方がいい
 - 除算した後は64bitに丸めなおす
-  - ちょっとノイズが増えるが, そうしないと小数部分がどんどん伸びてってしまう
+  - ちょっとノイズが増えるが, そうしないと小数部分がどんどん伸びてしまう
   - 実装上遅いし扱いが面倒なだけでダメなわけではない
 
 ---
@@ -234,9 +322,12 @@ $$
 - 課題4の暗号文の加算は自明なのでテストを走らせるだけ
   - 暗号化・復号実装がちゃんとしていればきっと動くはず
 - 課題5の乗算は実のところ多項式の乗算を適切に扱うのが一番面倒かも
+  - Extendedpolymul
   - 必要であれば自分でもう一つテストを書くと良いかもしれない
-  - 提供している高速多項式実装の場合, 最後にintでcastする前に割れば良い
-  - 
+  - 提供している高速多項式実装の場合, 最後にuintでcastする前に割れば良い
+- ExtendedDecryptionは$(a_2[X], b_2[X], c_2[X])$
+  - $S[X]^2$が必要な項があることに注意
+
 ---
 
 ## Relinearlization(アイデア)
@@ -247,99 +338,37 @@ $$
 - 乗算で増えてしまった次元を減らすのがRelinearlization
 - $(a_2[X],b_2[X]) - (0,c[X] \cdot S[X]^2)$ が計算できれば次数が元に戻る
   - $c[X] \cdot S[X]^2$を計算するには$S[X]^2$を$S[X]$で暗号化して送ってやればいい
-  - 
+  - このために使われるのがGLevと呼ばれる暗号形式
 
 ---
 
-## 整数多項式対角行列とTRLWEの積
+## 整数多項式とTorus多項式の積
 
-- いきなりTRGSWの具体的構成をみてもモチベーションがわからない
-- TRGSWを使ってやりたい演算を構成していくことでTRGSWを導出する
+- いきなりGLevの具体的構成をみてもモチベーションがわからない
+- やりたい演算を順次構成していくことでGLevを導出する
 - 以下のような演算を復号せずにやりたい(準同型暗号上の多項式乗算)
-  - 加法ができることは既に見ている
-  - 簡単のためここでは$k=2$を仮定する
-- この行列の部分をどうにかして暗号文にしたのがTRGSW
-
-$\begin{aligned}
-μ[X]&∈\mathbb{Z}_N[X]\\
-μ[X]⋅(a_0[X],a_1[X],b[X])&=(a_0[X],a_1[X],b[X])⋅
-\left(
-    \begin{array}{ccc}
-      μ[X] & 0 & 0\\
-      0 & μ[X] & 0\\
-      0 & 0 & μ[X]\\
-    \end{array}
-  \right)
-\end{aligned}$
-
+- 乗算の結果の3要素の暗号文の$S[X]^2$と掛ける項を$c[X]$とする
+- 計算したいのは$S[X]^2\cdot c[X]$
+  - 整数係数多項式とTorus多項式の積
 ---
 
 ## スケーリング
 
-- TRGSWの構成には３つ重要なアイデアがあり、１つがスケーリング
-- TFHEで考える暗号文は整数係数多項式をそのまま平文にすることはできない
-- 行列の方をTorus係数にしてその分をTRLWEに押し付けて整数係数に丸める
+- Glevの構成には2つ重要なアイデアがあり、１つがスケーリング
+- TRLWEは整数係数多項式をそのまま平文にすることはできない
+- $S^2[X]$をTorus係数にしてその分を$c[X]$に押し付けて整数係数に丸める
   - 丸めの分だけノイズが増えることに注意
-- $Bg\in\mathbb{Z},Bg>μ[X],e_r[X]∈\mathbb{T}_N[X]$
-- $e_r[X]$は丸めによるノイズ
-- ノイズが$μ[X]$倍されることに留意
+- $Bg\in\mathbb{Z},Bg>|S[X]^2|_\infty$
+- ノイズ($e[X]$)が$\lceil Bg\cdot c[X]\rfloor$倍されることに留意
 $\begin{aligned}
-⌈Bg⋅(a_0[X],a_1[X],b[X])⌋⋅&
-\left(
-    \begin{array}{ccc}
-      \frac{μ[X]}{Bg} & 0 & 0\\
-      0 &  \frac{μ[X]}{Bg}  & 0\\
-      0 & 0 & \frac{μ[X]}{Bg}
-    \end{array}
-  \right)=(a_0^r[X],a_1^r,b^r[X])\\
-  &≈μ[X]⋅(a_0[X],a_1[X],b[X])\\
-  b^r[X]-\mathbf{a}^r[X]⋅\mathbf{s}[X] &= μ[X](b[X] - \mathbf{a}[X]⋅\mathbf{s}[X]+e_r[X])
+\lceil Bg\cdot c[X]\rfloor \cdot (a[X], a[X]\cdot S[X] + \frac{S[X]^2}{Bg} + e[X])
 \end{aligned}$
-
----
-
-## 零行列加算
-
-- 行列に0を暗号化したTRLWEを加算することで行列を隠す(暗号文でマスクする)
-  - 足した後の行列はTRLWEのベクトルとして解釈できる
-- $(\mathbf{a}_i[X],b_i[X])$は0を暗号化したTRLWE
-- つまり、$b_i[X]-\mathbf{a}_i[X]⋅s[X]=0+e_i[X]$
-  - 0の暗号文を定数倍し足しても0の暗号でノイズが増えるだけ
-
-$
-\begin{array}{cc}
-&⌈Bg⋅(\mathbf{a}[X],b[X])⌋⋅[
-\left(
-    \begin{array}{ccc}
-      \frac{μ[X]}{Bg} & 0 & 0\\
-      0 & \frac{μ[X]}{Bg} & 0\\
-      0 & 0 & \frac{μ[X]}{Bg}
-    \end{array}
-  \right)+
-  \left(
-    \begin{array}{cc}
-      \mathbf{a}_0[X] & b_0[X] \\
-      \mathbf{a}_1[X] & b_1[X] \\
-      \mathbf{a}_2[X] & b_2[X]
-    \end{array}
-  \right)]\\
-  ≈&μ[X]⋅(\mathbf{a}[X],b[X])+⌈Bg⋅a_0[X]⌋⋅(\mathbf{a}_0[X],b_0[X])\\
-  &+⌈Bg⋅a_1[X]⌋⋅(\mathbf{a}_1[X],b_1[X])+⌈Bg⋅b[X]⌋⋅(\mathbf{a}_2[X],b_2[X])  
-\end{array}
-$
-
----
-
-## 何をしているか
-
-- スペースの都合でこれは$k=1$
-![](../../image/zeromatrixadd.jpg)
 
 ---
 
 ## $Bg$に関するトレードオフ
 
-- $⌈Bg⋅a[X]⌋,⌈Bg⋅b[X]⌋$の係数の最大値は$Bg$
+- $\lceil Bg⋅c[X]\rfloor$の係数の最大値は$Bg$
 - つまり$Bg$を大きくすると0の暗号文由来のノイズが大きく影響する
 - しかし$Bg$を小さくすると丸めによるノイズが大きくなる
 - このトレードオフから逃れるのがDecomposition
