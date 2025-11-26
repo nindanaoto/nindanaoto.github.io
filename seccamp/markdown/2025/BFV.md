@@ -80,9 +80,9 @@ style: |
 ## FullyじゃないHomomorphic Encryption
 
 - 多くのHEは剰余環上の整数に対する演算をサポートしている
-- PHE(Partial): 加算だけもしくは乗算だけできるHE
-- SHE(Somewhat): 両方できるが、乗算の回数に暗号方式に依存した回数制限がある
-- LHE(Leveled): 両方できるが、パラメータ依存で乗算の回数制限があるもの
+- PHE(Partial): 加算だけもしくは乗算だけできるHE (RSAとか)
+- SHE(Somewhat): 両方できるが乗算の回数に暗号方式に依存した回数制限がある
+- LHE(Leveled): 両方できるがパラメータ依存で乗算の回数制限があるもの
 
 ---
 
@@ -317,13 +317,17 @@ $\lceil\frac{(a_0[X] \cdot b_1[X] + a_1[X] \cdot b_0[X], b_0[X] \cdot b_1[X],  a
 
 ---
 
-## 演習タイム(課題4,5)
+## 演習タイム(課題4,5,6)
 
 - 課題4の暗号文の加算は自明なのでテストを走らせるだけ
   - 暗号化・復号実装がちゃんとしていればきっと動くはず
-- 課題5の乗算は実のところ多項式の乗算を適切に扱うのが一番面倒かも
+- 課題5はテストしやすいように分離しているだけ
+  - ExtendedEncryptは実際は全く使わないので, ExtendedDecryptの実装だけ書いて終わりでも良い
+  - 課題6でMulとどっちが悪いのかわからなくなると困りそうなので一応分けた
+- 課題6の乗算は実のところ多項式の乗算を適切に扱うのが一番面倒かも
   - Extendedpolymul
   - 必要であれば自分でもう一つテストを書くと良いかもしれない
+    - テスト提供するとほぼ答えなので分けていない
   - 提供している高速多項式実装の場合, 最後にuintでcastする前に割れば良い
 - ExtendedDecryptionは$(a_2[X], b_2[X], c_2[X])$
   - $S[X]^2$が必要な項があることに注意
@@ -369,73 +373,64 @@ $\begin{aligned}
 ## $Bg$に関するトレードオフ
 
 - $\lceil Bg⋅c[X]\rfloor$の係数の最大値は$Bg$
-- つまり$Bg$を大きくすると0の暗号文由来のノイズが大きく影響する
-- しかし$Bg$を小さくすると丸めによるノイズが大きくなる
+- つまり$Bg$を大きくすると$e[X]$が増幅される
+- しかし$Bg$を小さくすると丸めによる誤差が大きくなる
+  - $Bg=q$に取ればなくなるがそんな値は取れない
 - このトレードオフから逃れるのがDecomposition
 
 ---
 
 ## Decomposition(一般的定義)
 
-- TRLWEを丸めるときに$Bg$を基数とみなして$l$桁に分解する
+- 丸めるときに$Bg$を基数とみなして$l$桁に分解する
   - $Bg$を大きくせずに丸めによるノイズを減らせる
-- Decompositionは多項式$a[x]∈T_N[X]$を入力にとる
-- 出力として多項式のベクトル$\mathbf{ā}[X]∈(\mathbb{Z}_N[X])^l$を返す
+- Decompositionは多項式$c[x]∈T_N[X]$を入力にとる
+- 出力として多項式のベクトル$\mathbf{\bar c}[X]∈(\mathbb{Z}_N[X])^l$を返す
   - 要素となる多項式の係数は入力となる多項式の係数の一桁を抜き出したもの
   - Torusを$Bg$進表現したときの１番上の桁を集めたもの、次の桁という具合でベクトルの要素は並ぶ
-- $ā_{ij}$は$\mathop{\rm arg~min}\limits_{ā_{ij}} ∑^{N-1}_{j=0}(a_j-∑_{i=1}^{l}\frac{ā_{ij}}{Bg^i})^2\ s.t.\ ā_{ij}∈[-\frac{Bg}{2},\frac{Bg}{2})$を満たすとする
+- $\bar c_{ij}$は$\mathop{\rm arg~min}\limits_{\bar c_{ij}} ∑^{N-1}_{j=0}(a_j-∑_{i=1}^{l}\frac{\bar c_{ij}}{Bg^i})^2\ s.t.\ \bar c_{ij}∈[-\frac{Bg}{2},\frac{Bg}{2})$を満たす
   - $[0,Bg)$でなく$[-\frac{Bg}{2},\frac{Bg}{2})$にとるのはノイズを小さくしたいから
-- $ā_i[X]$を$0≤j≤N-1$次の係数が$ā_{ij}$である多項式とする
-- 多項式のベクトル$\mathbf{ā}[X]$の$1≤i≤l$番目の要素を$ā_i[X]$として返す
+- $\bar c_i[X]$を$0≤j≤N-1$次の係数が$\bar c_{ij}$である多項式とする
+- 多項式のベクトル$\mathbf{\bar c}[X]$の$1≤i≤l$番目の要素を$\bar c_i[X]$として返す
 ---
 
 ## Decompositionでつくるもの
 
 - 逆操作を先に見ることでイメージを得よう
-  - スペースの都合でk=1の場合にしている
-- $⌈Bg⋅(a[X],b[X])⌋$は$l=1$の場合のDecompositionになっている
+- $⌈Bg⋅c[X]⌋$は$l=1$の場合のDecompositionになっている
 
 $
-(a[X],b[X])≈ (ā_1[X],...,ā_l[X],b̄_1[X],...,b̄_l[X])
-\left(
-    \begin{array}{cc}
-      \frac{1}{Bg} & 0 \\
-      \frac{1}{Bg^2} & 0 \\
-      ⋮ & ⋮\\
-      \frac{1}{Bg^l} & 0 \\
-      0 & \frac{1}{Bg}\\
-      0 & \frac{1}{Bg^2}\\
-      ⋮&⋮\\
-      0 & \frac{1}{Bg^l}\\
-    \end{array}
-\right)
+c[X]≈ (\bar c_1[X],\cdots,\bar c_l[X]) \cdot (\frac{1}{Bg}, \frac{1}{Bg^2}, \cdots, \frac{1}{Bg^l})^T
 $
 
 ---
 
 ## Decomposition(具体的構成)
 
-- $ā_i[X]$を具体的に与えるアルゴリズムを示していく
+- $\bar c_i[X]$を具体的に与えるアルゴリズムを示していく
   - 簡単のため$Bg=2^{Bgbit}$と書ける場合に限定する
-  - Torusはuint32_tで表現されているものとする
+  - Torusはuint64_tで表現されているものとする
+    - 符号付きで考えると面倒になってしまうので一時的にcast
 - $[-\frac{Bg}{2},\frac{Bg}{2})$だと係数が負になる場合を考える必要がある
 - 各桁に$\frac{Bg}{2}$をたすことで$[0,Bg)$にずらす
 - こうするとbitマスクで取り出すだけで良くなる
+  - このあたりが面倒になる
 - 最後に各係数から$\frac{Bg}{2}$を引いて元に戻す
+  - 戻したら符号付きに戻る
 
 ---
 
 ## Decomposition(基本的アイデア)
 
 - 前提としてもし各桁を$[0,Bg)$の範囲で取るならmaskだけで良い
-  - $[0,Bg)$にとる場合を$â$とする
-  - つまり$â_{ij}=(((aᵢ+2^{32-Bgbit⋅l-1})>>(32-Bgbit⋅i))\&(Bg-1))$
-  - $2^{32-Bgbit⋅l-1}$は四捨五入のための定数
-  - これは$\mathop{\rm arg~min}\limits_{\hat{a}_{ij}} ∑^{N-1}_{j=0}(a_j-∑_{i=1}^{l}\frac{\hat{a}_{ij}}{Bg^i})^2\ s.t.\ \hat{a}_{ij}\in[0,Bg)$を満たす
-- $a[X]から\mathbf{â}[X]$を経由した$\mathbf{ā}[X]$への変換を考える
-  - 以下のような関係が成り立つように$ā_{ij}$を決めることができる(要は桁上がりをしている)
+  - $[0,Bg)$にとる場合を$\hat c$とする
+  - つまり$\hat c_{ij}=(((c_i+2^{64-Bgbit⋅l-1})>>(64-Bgbit⋅i))\&(Bg-1))$
+  - $2^{64-Bgbit⋅l-1}$は四捨五入のための定数
+  - これは$\mathop{\rm arg~min}\limits_{\hat{c}_{ij}} ∑^{N-1}_{j=0}(c_j-∑_{i=1}^{l}\frac{\hat{c}_{ij}}{Bg^i})^2\ s.t.\ \hat{c}_{ij}\in[0,Bg)$を満たす
+- $c[X]から\mathbf{\hat c}[X]$を経由した$\mathbf{\bar c}[X]$への変換を考える
+  - 以下のような関係が成り立つように$\bar c_{ij}$を決めることができる(要は桁上がりをしている)
 $$
-â_{ij} = \begin{cases} Bg+ā_{ij}\qquad if\quad â_{ij}≥\frac{Bg}{2}\\ ā_{ij}\qquad otherwise\end{cases}
+\hat c_{ij} = \begin{cases} Bg+\bar c_{ij}\qquad if\quad \hat c_{ij}≥\frac{Bg}{2}\\ \bar c_{ij}\qquad otherwise\end{cases}
 $$
 
 ---
@@ -443,54 +438,39 @@ $$
 ## Decomposition(疑似コード)
 
 - このアイデアをナイーブに実装した場合の疑似コードを示そう
-  - やっていることはほぼ繰り上がり計算なので加算機にそれを任せる最適化が可能だが複雑になりすぎるのでここでは説明しない
-  - Torusは32bit固定小数点表現されていることを仮定している
-  - 式に合わせるために分けているがâを更新して返してもよい
+  - ほぼ繰り上がり計算なので加算機でやる最適化が可能だが複雑になりすぎる
+  - Torusは64bit固定小数点表現されていることを仮定している
 
 ```
-Decomposition(a[X])
+Decomposition(c[X])
   roundoffset = 1 << (32 - l * Bgbit - 1)
   for i from 1 to l
     for j from 0 to N-1
-      âᵢⱼ=(((aⱼ+roundoffset)>>(32-Bgbit*i))&(Bg-1))
+      ̂cᵢⱼ=(((aⱼ+roundoffset)>>(64-Bgbit*i))&(Bg-1))
   for i from l to 1
     for j from 0 to N-1
-      if âᵢⱼ ≥ Bg/2
-        āᵢⱼ = âᵢⱼ - Bg
-        â₍ᵢ₋₁₎ⱼ += 1
+      if ̂c ᵢⱼ ≥ Bg/2
+        c̄ᵢⱼ = ĉᵢⱼ - Bg
+        ĉ₍ᵢ₋₁₎ⱼ += 1
       else
-        āᵢⱼ = âᵢⱼ
-  return 𝐚̄[X]
+        c̄ᵢⱼ = ĉᵢⱼ
+  return c̄[X]
 ```
 ---
 
-## TRGSWの具体的構成(平文が$\mathbb{Z}_N[X]$の場合)
+## Glevの具体的構成
 
-- DecompostionをTRLWEに施して掛け算をすると考えると$k=1$の暗号文は以下
-  - 実際は平文空間は$\mathbb{B}$だけでもHomNANDはつくれる
+- Decompostionを$c[X]$に施して掛け算をすると考えるとGLevの暗号文は以下
+  - 今回は平文が$S[X]^2$だけなのでそう書いているが一般には他のものでも良い
+- 要はTRLWEのベクトル
+  - 各行の$a[X],e[X]$は独立に選ぶ
 $
 \left(
     \begin{array}{cc}
-      \frac{μ[X]}{Bg} & 0 \\
-      \frac{μ[X]}{Bg^2} & 0 \\
-      ⋮ & ⋮\\
-      \frac{μ[X]}{Bg^l} & 0 \\
-      0 & \frac{μ[X]}{Bg}\\
-      0 & \frac{μ[X]}{Bg^2}\\
-      ⋮&⋮\\
-      0 & \frac{μ[X]}{Bg^l}\\
-    \end{array}
-\right)+
-\left(
-    \begin{array}{cc}
-      a_1[X] & b_1[X] \\
-      a_2[X] & b_2[X] \\
-      ⋮ & ⋮\\
-      a_l[X] & b_l[X] \\
-      a_{l+1}[X] & b_{l+1}[X]\\
-      a_{l+2}[X] & b_{l+2}[X]\\
-      ⋮&⋮\\
-      a_{2l}[X] & b_{2l}[X]\\
+      a_0[X] & a_0[X]\cdot S[X] + \frac{S[X]^2}{Bg} + e_0[X]\\
+      a_1[X] & a_1[X]\cdot S[X] + \frac{S[X]^2}{Bg^2} + e_1[X]\\
+      \vdots&\vdots\\
+      a_{l-1}[X] & a_{l-1}[X]\cdot S[X] + \frac{S[X]^2}{Bg^l} + e_{l-1}[X]\\
     \end{array}
 \right)
 $
@@ -500,16 +480,23 @@ $
 ## $l$に関するトレードオフ
 
 - $l$を増やせば丸めのノイズを減らすことができる
-- $l$を増やすと0の暗号文由来のノイズが増える
+- $l$を増やすとGLev暗号文由来のノイズが増える
+  - たくさん足し合わせることになるので
 - $l$は丸めには指数で効き0の暗号文由来には線形で効く
+  - トレードオフの出方が$Bg$と違う
+  - ノイズを最小化する$l,Bg$の組が存在する
 - $l$を増やすほどExternal Productの多項式乗算が増えて重くなる
-- トレードオフの出方が$Bg$と違う
+  - ノイズが許容される範囲で$l$を小さくとりがち
 
 ---
 
-## 演習タイム(課題6)
-
+## 演習タイム(課題7)
+- RelinearlizationKeyGenが$S[X]^2$を平文とするGLevの暗号化関数
+  - 復号は(一般の場合でも知る限り)使わないので必要ない
 - かなり計算が複雑になるので提供する高速多項式実装の利用を推奨
   - もちろん自前の実装が十分速いならそれでも問題ない
   - 模範解答として作った実装だと1回7sかかった
     - Ryzen 9800X3D上なので, ノートパソコンだと3倍くらいはかかるかも
+  - 時間が余ったら高速化を試みると良い
+    - Numpyの使い方の工夫だけでも早くなったりするかも
+    - PyPy, Codon, Numba, Cythonあたりも試す?
