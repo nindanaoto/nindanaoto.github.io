@@ -193,6 +193,18 @@ style: |
 
 ---
 
+## OffTopic: TRLWEの安全性の直感的理解
+
+- $a[X]\cdot S[X]$は行列ベクトル積としてかける
+  - $a[X]$の係数で作った巡回行列と$S[X]$の係数のベクトル
+    - つまり$A\cdot \mathbf{S} = \mathbf{b} - \mathbf{e} + \mathbf{m}$みたいな形にできる
+- $A$の逆行列が計算できるとすると, もしこれが実数の話なら最小二乗法的な話に落ちる
+  - 実際はTorusで周期性があるのでもっと難しいが
+  - 最小二乗法だと思うと, ノイズがないとすぐ解けそうということはわかるはず
+- 一般の解法については「格子暗号解読のための数学的基礎」とかを読むと良い
+
+---
+
 ## Torusの実装法
 
 - 実数の小数部の集合なのでナイーブには倍精度浮動小数点数で実装したくなる
@@ -251,6 +263,8 @@ for i from 0 to N-1
 
 - ここまで説明したTRLWEの暗号化と復号を実装しよう
   - 課題3のテストが通ればとりあえずよし
+  - 本当はちゃんとした乱数生成器を使う必要があるが, 今回はそこには目を瞑ることにする
+    - 乱数の品質が低いと暗号が脆弱になる
 - $q=2^{64}, N=2^{11}, α=2^{-51}$
 
 ---
@@ -500,3 +514,94 @@ $
   - 時間が余ったら高速化を試みると良い
     - Numpyの使い方の工夫だけでも早くなったりするかも
     - PyPy, Codon, Numba, Cythonあたりも試す?
+
+---
+
+## 参考文献
+
+- [B/FV原論文(Brakerski)](https://eprint.iacr.org/2012/078)
+- [B/FV原論文(Fan-Vercauteren)](https://eprint.iacr.org/2012/144)
+- [The Chinese Remainder Theorem](https://math.berkeley.edu/~kmill/math55sp17/crt.pdf) 
+- [Introduction to BFV](https://inferati.com/blog/fhe-schemes-bfv)
+- [Bootstrapping for HElib](https://eprint.iacr.org/2014/873)
+- [BFVのGPU実装](https://github.com/lightbulb128/troy-nova.git)
+
+
+---
+
+## Advanced Topics
+
+- 時間が余ったら喋ろうと思っている話題のリスト
+  - バッファとして消費する可能性もあるので喋らないかも
+  - その時の様子で内容は決める
+
+1. RNS&Double Decomposition
+2. Fast Polynomial Multiplication
+3. Bootstrapping (Lifting)
+4. Packing
+5. CLPX
+
+---
+
+## Packing
+
+- Canonical Embeddingと呼ばれることもある
+  - Embeddingは日本語で言えば埋め込みで[wiki](https://ja.wikipedia.org/wiki/%E5%9F%8B%E3%82%81%E8%BE%BC%E3%81%BF_(%E6%95%B0%E5%AD%A6))によると数学的構造間の構造を保つような単射のことらしい
+- BFVの特徴としてよく言われるもの
+  - (CKKSもだが)一般にはこちらの方式がよく使われる
+- Packingは平文のエンコーディング方法の一つ
+  - 暗号文の演算としては変わらない
+- RLWEに見られる性質として, 加算に関しては係数ごとに並列な演算ができる
+  - 乗算に関しても独立な計算ができたら便利そう
+    - $t$を法とするNTTをかけてやればこれが達成できる 
+      - $t=2^{16}+1$とかがよくつかわれる
+    - CKKSだとFFT
+    - 厳密には$N$次全てを使うのでなければNTTとして完全に分解できる必要はないので$t$を$2$とかにとってもよい
+      - $t$の下で$X^N+1$が分解できる式の数が並列で扱えるスカラーの数
+$b[X] = a[X] \cdot S[X] + \lceil NTT_t(m[X]) \cdot \Delta \rfloor + e[X]$
+
+---
+
+## Slot2Coeff/Coeff2Slot
+
+- Packingで値を詰めた場合の各値のことをSlotと呼ぶ
+  - たぶんSIMDレジスタ的な気持ち
+- しかしBootstrappingなどをするときには多項式の係数に対して考えたほうが楽な場合が多い
+  - 平文がNTTがかかってる状態のやつを暗号上でINTTをかけて係数に平文が来るようにしたい
+- Nai\"eveな実装はとても簡単
+  - NTTやINTTは行列(Vandermonde matrix)とベクトルの積として書ける
+    - これをKeySwitchingとしてやればよい
+
+---
+
+## Lifting
+
+- Bootstrappingをするにはノイズを消去する必要がある
+  - SampleExtractIndexしてTFHEでBootsrapingする方法も知られてはいる
+- BFV固有のBootstrappingのアイデアとしてLiftingがある
+  - 平文を基数$p$で分解できる($t=p^e$)ものとして最下位を得る演算
+    - 最下位を得られればそれを引けば最下位が消去できる
+- 最も単純なものは$p=2,3$の場合
+  - $p$乗して引くことを繰り返すだけ
+
+---
+
+## Liftingの疑似コード
+
+- [Bootstrapping for HElib](https://eprint.iacr.org/2014/873)のFigure 1より
+  - jのLoopのところがLifting
+  - これで最上位桁を取り出せる
+
+```
+Digit Extraction(z,e)
+w₀,₀ ← z
+For k ← 0 to e-1
+  y ← z
+  For j ← 0 to k
+    wⱼ,ₖ₊₁ ← (wⱼ,ₖ)ᵖ
+    y ← (y - wⱼ,ₖ₊₁)/p
+  wₖ₊₁,ₖ₊₁
+return wₑ,ₑ
+```
+
+---
