@@ -133,6 +133,7 @@ style: |
   - 実装は既定の時間が終了しかつ半数以上の人が達成したら終了の予定
 - Relinearlizationは時間内に実装できるか怪しい
   - 時間内にできなくても落ち込まないで
+- 課題は[このGitHubレポジトリ](https://github.com/nindanaoto/Tutorial4BFV.git)にある
 
 1. 導入とTRLWEの暗号化と復号(今)
 2. TRLWEの加法性と乗法性
@@ -246,7 +247,7 @@ style: |
 - 実装したい操作を数式で書くと以下のようになる
 
 $$
-\mathrm{uint}(\mathrm{int}((d \mod{1})⋅q))
+\mathrm{int}(\mathrm{uint}((d \mod{1})⋅q))
 $$
 
 ---
