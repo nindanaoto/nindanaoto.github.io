@@ -29,7 +29,7 @@ style: |
 <!-- page_number: true -->
 
 # 暗号のままで計算しよう 〜B/FV編〜
-## セキュリティ・キャンプ2025ミニ（石川開催
+## セキュリティ・キャンプ2025ミニ（石川開催）
 
 松岡　航太郎
 
@@ -106,7 +106,7 @@ style: |
 - 第1世代FHE: Gentryさんの博士論文(2009)など
 - 第2世代FHE: Brakerski-Gentry-Vaikuntanathan (BGV, 2011)など
 - 第3世代FHE: Craig Gentry, Amit Sahai, and Brent Waters (GSW,2013)やTFHE(2016)など
-- 第4世代FHE:  Cheon Jung Hee, Kim Andrey, Kim Miran, Song Yongsoo(CKKS, 2017)
+- 第4世代FHE: Cheon Jung Hee, Kim Andrey, Kim Miran, Song Yongsoo(CKKS, 2017)
 
 ---
 
@@ -137,7 +137,7 @@ style: |
 1. 導入とTRLWEの暗号化と復号(今)
 2. TRLWEの加法性と乗法性
 3. Relinearlization
-4. RNSととBootstrapping
+4. Advanced Topics
 
 ---
 
