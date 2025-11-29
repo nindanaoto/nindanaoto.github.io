@@ -5,7 +5,7 @@ marp: true
 theme: default
 size: 16:9
 paginate: true
-footer : ![](../../seccamp/image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)
+footer : ![](../../image/ccbysa.png) [licence](https://creativecommons.org/licenses/by-sa/4.0/)
 style: |
   h1, h2, h3, h4, h5, header, footer {
         color: white;
@@ -28,7 +28,8 @@ style: |
 
 <!-- page_number: true -->
 
-# Turorial for B/FV
+# 暗号のままで計算しよう 〜B/FV編〜
+## セキュリティ・キャンプ2025ミニ（石川開催
 
 松岡　航太郎
 
@@ -64,6 +65,19 @@ style: |
 - 流行りの応用は医療データなどの機密性の高いデータを扱うPrivate AI
 - [標準化](https://homomorphicencryption.org/standard/)の動きも在る
   - [ISO/IEC 18033-6:2019(en) IT Security techniques — Encryption algorithms — Part 6: Homomorphic encryption](https://www.iso.org/obp/ui/#iso:std:iso-iec:18033:-6:ed-1:v1:en)
+
+---
+
+## 準同型暗号の実応用例
+
+1. Microsoftの[Password Monitor](https://www.microsoft.com/en-us/research/blog/password-monitor-safeguarding-passwords-in-microsoft-edge/)
+    - パスワードが漏洩しているかどうかを判定
+    - Edge経由で使えるらしい
+2. AppleのCaller ID, Business Services in Mail, Enhanced Visual Search
+    - Caller ID: 迷惑電話として知られている番号かどうかを判定
+    - Business Services in Mail: メールの送信元がスパムとして知られているかを判定
+    - Enhanced Visual Search: 画像からどこでとられた写真家推定する
+        - On-Device MLやDifferential Privacyなども使われているのでHEだけではない
 
 ---
 
@@ -405,7 +419,7 @@ $\begin{aligned}
 - $\bar c_{ij}$は$\mathop{\rm arg~min}\limits_{\bar c_{ij}} ∑^{N-1}_{j=0}(a_j-∑_{i=1}^{l}\frac{\bar c_{ij}}{Bg^i})^2\ s.t.\ \bar c_{ij}∈[-\frac{Bg}{2},\frac{Bg}{2})$を満たす
   - $[0,Bg)$でなく$[-\frac{Bg}{2},\frac{Bg}{2})$にとるのはノイズを小さくしたいから
 - $\bar c_i[X]$を$0≤j≤N-1$次の係数が$\bar c_{ij}$である多項式とする
-- 多項式のベクトル$\mathbf{\bar c}[X]$の$1≤i≤l$番目の要素を$\bar c_i[X]$として返す
+  - 多項式のベクトル$\mathbf{\bar c}[X]$の$1≤i≤l$番目の要素を$\bar c_i[X]$として返す
 ---
 
 ## Decompositionでつくるもの
@@ -460,7 +474,7 @@ Decomposition(c[X])
   roundoffset = 1 << (32 - l * Bgbit - 1)
   for i from 1 to l
     for j from 0 to N-1
-      ̂cᵢⱼ=(((aⱼ+roundoffset)>>(64-Bgbit*i))&(Bg-1))
+      ̂cᵢⱼ=(((cⱼ+roundoffset)>>(64-Bgbit*i))&(Bg-1))
   for i from l to 1
     for j from 0 to N-1
       if ̂c ᵢⱼ ≥ Bg/2
@@ -525,7 +539,7 @@ $
 - [Introduction to BFV](https://inferati.com/blog/fhe-schemes-bfv)
 - [Bootstrapping for HElib](https://eprint.iacr.org/2014/873)
 - [BFVのGPU実装](https://github.com/lightbulb128/troy-nova.git)
-
+- [TFHEのPython実装](https://github.com/virtualsecureplatform/pyFHE.git)
 
 ---
 
