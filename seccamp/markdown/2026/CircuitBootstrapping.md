@@ -63,15 +63,22 @@ style: |
 ## PublicKeySwitching
 
 - IKSの時はTLWEからTLWEの写像としてKeySwitchingを書いた
-    - 実際にはT(R)LWEからT(R)LWEへの写像としてかける
+  - 実際にはT(R)LWEからT(R)LWEへの写像としてかける
+- Identity以外の場合にはT(R)LWEの各要素に所望の関数を適用する
+  - Publicな要素にPublicな関数を適用する
+  - 適用してからSwitching
 
 ---
 
 ## PrivateKeySwitching 
 
+- 関数がPrivateな場合
+
 ---
 
 ## ManyLUTによる高速化
+
+- 行ごとにやらずにまとめてやる
 
 ---
 
